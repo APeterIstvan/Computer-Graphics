@@ -1,0 +1,13 @@
+# Blender MTL File: 'tower_bridge.blend'
+# Material Count: 1
+
+newmtl orig_07___Default
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.588200 0.588200 0.588200
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\x\\Documents\\TowerBridge_V1_L3.123ce47e80b7-9ab5-41d4-a65e-851e0589ac8c\\10077_Tower Bridge_v1_Diffuse.jpg
