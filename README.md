@@ -25,10 +25,10 @@
   - go in reverse
   - dynamically speed up
   - dynamically slow down
-  - break
+  - brake
 - The wheels of the car speed up / slow down also according to the current speed of the car
 - When the car accelerates / slows down, it tilts backwards / forward according to the current action
-- The car has break lights, reverse lights and special headlights which can be turned on/off
+- The car has brake lights, reverse lights and special headlights which can be turned on/off
 - When hitting an obstacle:
   - the car bumps and crashes
   - the headlights start to blink
