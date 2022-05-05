@@ -4,7 +4,7 @@
 #include <obj/draw.h>
 #include <math.h>
 
-void init_car(Car *car){
+void init_car(Car *car) {
     init_car_objects(car);
     init_car_textures(car);
 
@@ -101,7 +101,7 @@ void init_car(Car *car){
     SDL_QueueAudio(car->car_start, wav_buffer, wav_length);
 }
 
-void init_car_objects(Car *car){
+void init_car_objects(Car *car) {
     load_model(&(car->model), "assets/models/car.obj");
     load_model(&(car->crash_model), "assets/models/porsche_crashed.obj");
     load_model(&(car->front_right_wheel), "assets/models/front_right_wheel.obj");
@@ -109,20 +109,20 @@ void init_car_objects(Car *car){
     load_model(&(car->back_wheels), "assets/models/back_wheels.obj");
 }
 
-void init_car_textures(Car *car){
+void init_car_textures(Car *car) {
     car->wheel_texture = load_texture("assets/textures/tyre.jpg");
 }
 
-void update_car(Car *car, Camera *camera, double time){
+void update_car(Car *car, Camera *camera, double time) {
     //Loading car texture according to the car's state of movement
-    if(!car->brake_on && !car->button_brake_on && !car->reverse_on) {
+    if (!car->brake_on && !car->button_brake_on && !car->reverse_on) {
         car->texture = load_texture("assets/textures/car.jpg");
-    } else if(car->reverse_on && !car->brake_on ) {
+    } else if (car->reverse_on && !car->brake_on) {
         car->texture = load_texture("assets/textures/car_reverse.jpg");
-    } else if(car->speed.x > 0){
+    } else if (car->speed.x > 0) {
         car->brake_on = false;
         car->reverse_on = true;
-    } else if(car->speed.x < 0 && car->brake_on && car->button_brake_on){
+    } else if (car->speed.x < 0 && car->brake_on && car->button_brake_on) {
         car->texture = load_texture("assets/textures/car_brake.jpg");
     }
 
@@ -152,7 +152,7 @@ void update_car(Car *car, Camera *camera, double time){
 
     //Acceleration backwards
     if (car->acceleration > 0.0) {
-        if(car->button_brake_on && car->speed.x < 0){
+        if (car->button_brake_on && car->speed.x < 0) {
             car->brake_on = true;
         } else {
             car->reverse_on = true;
@@ -187,9 +187,6 @@ void update_car(Car *car, Camera *camera, double time){
         car->reverse_on = false;
         car->brake_on = false;
         if (car->speed.x < 0) {
-            //printf("%f, ", car->
-            //
-            //body_rotation.y);
             car->speed.x += 20 * time;
             car->position.x +=
                     cos(degree_to_radian(car->steering_rotation.z)) * car->speed.x * time;
@@ -205,7 +202,7 @@ void update_car(Car *car, Camera *camera, double time){
             }
             if (car->body_rotation.y > 0.01 && car->body_rotation.y < 0.5) {
                 car->body_rotation.y += -0.2;
-            } else if(car->body_rotation.y < -0.01 && car->body_rotation.y >= -1.5){
+            } else if (car->body_rotation.y < -0.01 && car->body_rotation.y >= -1.5) {
                 car->body_rotation.y += 0.5;
             }
         } else {
@@ -214,7 +211,7 @@ void update_car(Car *car, Camera *camera, double time){
     }
 
     //Setting car's tilt to default if the car isn't moving
-    if(car->speed.x == 0.0 && car->body_rotation.y <= -0.1){
+    if (car->speed.x == 0.0 && car->body_rotation.y <= -0.1) {
         car->body_rotation.y += 0.5;
     }
 
@@ -243,6 +240,13 @@ void update_car(Car *car, Camera *camera, double time){
             camera->position.y = 12;
         }
     }
+    
+    if(car->position.x > 1240){
+        car->position.x = 1240;
+        if (car->camera_follow) {
+            camera->position.x = 1256;
+        }
+    }
 
     //Crashed headlights
     car->headlight_crashed.x = rand() / (RAND_MAX / (0.2 - 0.0));
@@ -260,7 +264,7 @@ void update_car(Car *car, Camera *camera, double time){
     }
 }
 
-void render_car(const Car *car){
+void render_car(const Car *car) {
     set_car_material(&(car->car_material));
 
     render_lights(car);
@@ -323,7 +327,7 @@ void render_car(const Car *car){
     glPopMatrix();
 }
 
-void render_lights(Car *car){
+void render_lights(Car *car) {
     //Left headlight of the car
     glPushMatrix();
     glTranslatef(car->position.x - 5.4, car->position.y + 4.0, car->position.z - 2.5);
@@ -339,8 +343,8 @@ void render_lights(Car *car){
     glPopMatrix();
 }
 
-void toggle_headlight_left(Car *car){
-    if(car->headlights_on){
+void toggle_headlight_left(Car *car) {
+    if (car->headlights_on) {
         glEnable(GL_LIGHT1);
     } else {
         glDisable(GL_LIGHT1);
@@ -348,12 +352,12 @@ void toggle_headlight_left(Car *car){
 
     GLfloat ambient_light[] = {0, 0, 0, 0};
     GLfloat diffuse_light[4];
-    if(!car->crash_state) {
+    if (!car->crash_state) {
         diffuse_light[0] = 0.2f;
         diffuse_light[1] = 0.2f;
         diffuse_light[2] = 0.2f;
         diffuse_light[3] = 1.0f;
-    } else if(car->party_lights_on) {
+    } else if (car->party_lights_on) {
         diffuse_light[0] = car->party_lights.x;
         diffuse_light[1] = car->party_lights.y;
         diffuse_light[2] = car->party_lights.z;
@@ -378,8 +382,8 @@ void toggle_headlight_left(Car *car){
     glPopMatrix();
 }
 
-void toggle_headlight_right(Car *car){
-    if(car->headlights_on){
+void toggle_headlight_right(Car *car) {
+    if (car->headlights_on) {
         glEnable(GL_LIGHT2);
     } else {
         glDisable(GL_LIGHT2);
@@ -387,12 +391,12 @@ void toggle_headlight_right(Car *car){
 
     GLfloat ambient_light[] = {0, 0, 0, 0};
     GLfloat diffuse_light[4];
-    if(!car->crash_state) {
+    if (!car->crash_state) {
         diffuse_light[0] = 0.2f;
         diffuse_light[1] = 0.2f;
         diffuse_light[2] = 0.2f;
         diffuse_light[3] = 1.0f;
-    } else if(car->party_lights_on) {
+    } else if (car->party_lights_on) {
         diffuse_light[0] = car->party_lights.x;
         diffuse_light[1] = car->party_lights.y;
         diffuse_light[2] = car->party_lights.z;
@@ -476,7 +480,7 @@ void set_acceleration_speed(Car *car, float speed) {
     car->acceleration = speed;
 }
 
-void toggle_headlights(Car *car, bool status){
+void toggle_headlights(Car *car, bool status) {
     car->headlights_on = status;
 }
 

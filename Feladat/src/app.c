@@ -15,7 +15,7 @@ void init_app(App *app, int width, int height) {
     }
 
     app->window = SDL_CreateWindow(
-            "Fast Car Go Vroom!",
+            "Fast Car Go Vroom! - A4XIOV",
             SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
             width, height,
             SDL_WINDOW_OPENGL);
