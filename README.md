@@ -1,4 +1,4 @@
-## [EN](#computer-graphics-project) [ES](#proyecto-de-gráficos-de-computadora) [HU](#számítógépi-grafika-projekt)
+## [EN](#-computer-graphics-project) [ES](#-proyecto-de-gráficos-de-computadora) [HU](#-számítógépi-grafika-projekt)
 # 💻 Computer Graphics Project
 ## Description
 - This is a project assignment for the university class of Computer Graphics.
