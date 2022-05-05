@@ -115,7 +115,7 @@ void init_car_textures(Car *car) {
 }
 
 void update_car(Car *car, Camera *camera, double time) {
-     if (car->speed.x > 0) {
+    if (car->speed.x > 0) {
         car->brake_on = false;
         car->reverse_on = true;
     }
@@ -226,7 +226,7 @@ void update_car(Car *car, Camera *camera, double time) {
         }
     }
 
-    if(car->position.x > 1240){
+    if (car->position.x > 1240) {
         car->position.x = 1240;
         if (car->camera_follow) {
             camera->position.x = 1256;

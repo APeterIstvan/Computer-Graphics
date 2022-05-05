@@ -132,6 +132,14 @@ void handle_app_events(App *app) {
                         app->camera.rotation.y = 0.0;
                         app->camera.rotation.z = 180.0;
                         break;
+                    case SDL_SCANCODE_V:
+                        app->camera.position.x = app->car.position.x - 18;
+                        app->camera.position.y = app->car.position.y;
+                        app->camera.position.z = 8.0;
+                        app->camera.rotation.x = -16.0;
+                        app->camera.rotation.y = 0.0;
+                        app->camera.rotation.z = 0.0;
+                        break;
                     case SDL_SCANCODE_E:
                         app->car.car_started = !app->car.car_started;
                         break;
@@ -214,6 +222,14 @@ void handle_app_events(App *app) {
                     case SDL_SCANCODE_A:
                     case SDL_SCANCODE_D:
                         set_camera_side_speed(&(app->camera), 0);
+                        break;
+                    case SDL_SCANCODE_V:
+                        app->camera.position.x = app->car.position.x + 16;
+                        app->camera.position.y = app->car.position.y;
+                        app->camera.position.z = 8.0;
+                        app->camera.rotation.x = -16.0;
+                        app->camera.rotation.y = 0.0;
+                        app->camera.rotation.z = 180.0;
                         break;
                     case SDL_SCANCODE_UP:
                     case SDL_SCANCODE_DOWN:

@@ -220,7 +220,6 @@ void update_scene(Scene *scene, Camera *camera, Car *car, double time) {
             if (car->position.x < scene->barrier[i].position.x + scene->barrier[i].minus_size) {
                 car->position.x = scene->barrier[i].position.x + 10;
                 car->speed.x = 0;
-                //printf("%f ", car->rotation.y);
 
                 if (camera->position.x > car->position.x + 16) {
                     camera->position.x += camera->speed.x * time;
@@ -353,7 +352,6 @@ void render_mountain(const Scene *scene) {
 }
 
 void draw_help_panel(GLuint help_panel) {
-    //Oravecz József
     glDisable(GL_LIGHTING);
 
     glMatrixMode(GL_MODELVIEW);
