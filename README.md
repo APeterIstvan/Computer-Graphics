@@ -79,7 +79,7 @@
   - acelerar dinámicamente
   - ralentizar dinámicamente
   - frenar
-- Las ruedas del coche támbien pueden acelerar, ralentizar según la velocidad actual del coche
+- Las ruedas del coche también pueden acelerar, ralentizar según la velocidad actual del coche
 - Cuando el coche acelera / ralentiza, se inclina hacia atrás / adelante según la acción actual
 - El coche tiene luces de freno, luces de marcha atrás y faros especiales que se pueden encender / apagar
 - Al chocar contra un obstáculo:
