@@ -48,7 +48,7 @@ typedef struct Car {
     bool headlights_on;
     bool party_lights_on;
     vec3 party_lights;
-    vec3 headlight_crashed;
+    float headlight_crashed;
 
     bool camera_follow;
 

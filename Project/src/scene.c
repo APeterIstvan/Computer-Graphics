@@ -104,7 +104,6 @@ void init_objects(Scene *scene) {
 void init_textures(Scene *scene) {
     scene->bridge_texture = load_texture("assets/textures/tower_bridge.jpg");
     scene->water.texture = load_texture("assets/textures/water3.jpg");
-    scene->skull.texture = load_texture("assets/textures/sky.jpg");
     scene->help_panel_texture = load_texture("assets/textures/help.jpg");
     scene->skybox_texture = load_texture("assets/textures/sky.jpg");
     //scene->mountain_texture = load_texture("assets/textures/mountain.jpg");
@@ -318,7 +317,6 @@ void render_barrier(const Scene *scene) {
 void render_skull(const Scene *scene) {
     glPushMatrix();
     glTranslatef(scene->bridge[ROAD_NUMBERS - 1].position.x - 1260, 0, 40);
-    glBindTexture(GL_TEXTURE_2D, scene->skull.texture);
     glBegin(GL_TRIANGLES);
     draw_model(&(scene->skull.model));
     glEnd();

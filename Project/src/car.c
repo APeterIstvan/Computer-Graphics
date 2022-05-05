@@ -83,9 +83,7 @@ void init_car(Car *car) {
     car->party_lights.y = 0.0f;
     car->party_lights.z = 0.0f;
 
-    car->headlight_crashed.x = 0.0f;
-    car->headlight_crashed.y = 0.0f;
-    car->headlight_crashed.z = 0.0f;
+    car->headlight_crashed = 0.0f;
 
     car->headlights_on = false;
 
@@ -107,6 +105,7 @@ void init_car_objects(Car *car) {
     load_model(&(car->front_right_wheel), "assets/models/front_right_wheel.obj");
     load_model(&(car->front_left_wheel), "assets/models/front_left_wheel.obj");
     load_model(&(car->back_wheels), "assets/models/back_wheels.obj");
+    car->texture = load_texture("assets/textures/car.jpg");
 }
 
 void init_car_textures(Car *car) {
@@ -240,7 +239,7 @@ void update_car(Car *car, Camera *camera, double time) {
             camera->position.y = 12;
         }
     }
-    
+
     if(car->position.x > 1240){
         car->position.x = 1240;
         if (car->camera_follow) {
@@ -249,7 +248,7 @@ void update_car(Car *car, Camera *camera, double time) {
     }
 
     //Crashed headlights
-    car->headlight_crashed.x = rand() / (RAND_MAX / (0.2 - 0.0));
+    car->headlight_crashed = rand() / (RAND_MAX / (0.2 - 0.0));
 
     //Party headlights
     car->party_lights.x = rand() / (RAND_MAX / (1.0 - 0.0));
@@ -363,9 +362,9 @@ void toggle_headlight_left(Car *car) {
         diffuse_light[2] = car->party_lights.z;
         diffuse_light[3] = 1.0f;
     } else {
-        diffuse_light[0] = car->headlight_crashed.x;
-        diffuse_light[1] = car->headlight_crashed.x;
-        diffuse_light[2] = car->headlight_crashed.x;
+        diffuse_light[0] = car->headlight_crashed;
+        diffuse_light[1] = car->headlight_crashed;
+        diffuse_light[2] = car->headlight_crashed;
         diffuse_light[3] = 0;
     }
     GLfloat specular_light[] = {1.0f, 1.0f, 1.0f, 1.0f};
@@ -402,9 +401,9 @@ void toggle_headlight_right(Car *car) {
         diffuse_light[2] = car->party_lights.z;
         diffuse_light[3] = 1.0f;
     } else {
-        diffuse_light[0] = car->headlight_crashed.x;
-        diffuse_light[1] = car->headlight_crashed.x;
-        diffuse_light[2] = car->headlight_crashed.x;
+        diffuse_light[0] = car->headlight_crashed;
+        diffuse_light[1] = car->headlight_crashed;
+        diffuse_light[2] = car->headlight_crashed;
         diffuse_light[3] = 0;
     }
     GLfloat specular_light[] = {1.0f, 1.0f, 1.0f, 1.0f};
