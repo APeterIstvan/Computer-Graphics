@@ -48,5 +48,50 @@
 | F5  | Fog on/off |
 
 ## Descripción
+- Es un proyecto para la asignatura universitaria de Gráficos de Computadora
+- El proyecto es un juego en el que el jugador tiene que esquivar ciertos obstáculos con un coche en un puente y llegar a la "línea meta".
+
+## Características básicas
+- El entorno consta de lo siguiente:
+  - Coche
+  - Puente
+  - Obstáculos
+  - "Línea meta"
+  - Skybox
+- Control de luz ambiental
+- Manejo de cámara
+- Objetos
+- Texturas
+- Panel de ayuda
+- Animaciones / movimiento de objetos
+
+## Características especiales
+- Para hacer que el juego sea más desafiante, hay niebla, para que el jugador no vea todos los obstáculos por adelantado
+- El coche puede:
+  - girarse
+  - ir en reversa
+  - acelerar dinámicamente
+  - ralentizar dinámicamente
+  - frenar
+- Las ruedas del coche támbien pueden acelerar, ralentizar según la velocidad actual del coche
+- Cuando el coche acelera / ralentiza, se inclina hacia atrás / adelante según la acción actual
+- El coche tiene luces de freno, luces de marcha atrás y faros especiales que se pueden encender / apagar
+- Al chocar contra un obstáculo:
+  - el coche choca y se inclina
+  - los faros empiezan a parpadear
+- Detección de colisión para que el coche no pueda salirse de la calzada
+- Los obstáculos se generan a distancias aleatorias entre sí
+
+## Atajos de teclado
+| Tecla  | Acción |
+| ------------- | ------------- |
+| Arriba, Abajo, Derecha, Izquierda  | Movimiento del coche |
+| W, A, S, D, Shift, Ratón  | Movimiento de la cámara |
+| R  | Reiniciar el juego |
+| C  | Reiniciar la cámara |
+| F1  | Panel de ayuda |
+| F2, F3  | Luces |
+| F4  | Seguimiento del coche de la cámara encendido/apagado |
+| F5  | Niebla encendida/apagada |
 
 ## Leírás
