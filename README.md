@@ -88,7 +88,7 @@
 - Detección de colisión para que el coche no pueda salirse de la calzada
 - Los obstáculos se generan a distancias aleatorias entre sí
 
-## Atajos de teclado
+## Teclas
 | Tecla  | Acción |
 | ------------- | ------------- |
 | Arriba, Abajo, Derecha, Izquierda  | Movimiento del coche |
