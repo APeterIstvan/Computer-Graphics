@@ -42,6 +42,7 @@
 | W, A, S, D, Shift, Mouse  | Camera movement |
 | R  | Reset Game |
 | C  | Reset Camera |
+| Q  | Headlights |
 | F1  | Help panel |
 | F2, F3  | Light |
 | F4  | Car following of camera on/off |
@@ -94,6 +95,7 @@
 | W, A, S, D, Shift, Ratón  | Movimiento de la cámara |
 | R  | Reiniciar el juego |
 | C  | Reiniciar la cámara |
+| Q  | Faros |
 | F1  | Panel de ayuda |
 | F2, F3  | Luces |
 | F4  | Seguimiento del coche de la cámara encendido/apagado |
@@ -146,6 +148,7 @@
 | W, A, S, D, Shift, Egér  | Kamera mozgatása |
 | R  | Játék alaphelyzetbe állítása |
 | C  | Kamera alaphelyzetbe állítása |
+| Q  | Fényszórók |
 | F1  | Használati útmutató |
 | F2, F3  | Fények |
 | F4  | Autókövetés - kamera be/ki |
