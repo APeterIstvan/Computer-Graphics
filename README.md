@@ -1,7 +1,7 @@
-# SzamitogepiGrafika
-## [EN](https://github.com/APeterIstvan/SzamitogepiGrafika#description) [ES](https://github.com/APeterIstvan/SzamitogepiGrafika#descripción) [HU](https://github.com/APeterIstvan/SzamitogepiGrafika#leírás)
+## [EN](#computer-graphics-project) [ES](#proyecto-de-gráficos-de-computadora) [HU](#számítógépi-grafika-projekt)
+# Computer Graphics Project
 ## Description
-- This is a project assignment for the university class of Computer Graphics
+- This is a project assignment for the university class of Computer Graphics.
 - The project is a game in which the player has to dodge certain obstacles on a bridge with a car and get to the "finish line".
 
 ## Basic features
@@ -19,7 +19,7 @@
 - Animations / moving of objects
 
 ## Special features
-- To make the gameplay more challenging there is fog, so that the player doesn't see all the obstacles in advance
+- To make the gameplay more challenging, there is fog, so that the player doesn't see all the obstacles in advance
 - The car can:
   - turn
   - go in reverse
@@ -47,8 +47,13 @@
 | F4  | Car following of camera on/off |
 | F5  | Fog on/off |
 
+-------------------------------------
+-------------------------------------
+
+# Proyecto de Gráficos de Computadora
+
 ## Descripción
-- Es un proyecto para la asignatura universitaria de Gráficos de Computadora
+- Es un proyecto para la asignatura universitaria de Gráficos de Computadora.
 - El proyecto es un juego en el que el jugador tiene que esquivar ciertos obstáculos con un coche en un puente y llegar a la "línea meta".
 
 ## Características básicas
@@ -94,4 +99,57 @@
 | F4  | Seguimiento del coche de la cámara encendido/apagado |
 | F5  | Niebla encendida/apagada |
 
+-------------------------------------
+-------------------------------------
+
+# Számítógépi grafika projekt
+
 ## Leírás
+- A projekt egy féléves beadandó feladat Számítógépi grafika tárgyra.
+- A projekt egy játék, amiben a játékosnak ki kell kerülnie bizonyos akadályokat egy hídon lévő autóval, majd elérni a "célvonalhoz".
+
+## Alapvető funkciók
+- A környezet a következő elemekből áll:
+  - Autó
+  - Híd
+  - Akadályok
+  - Easter egg célvonal
+  - Skybox
+- Környezeti fények állítása
+- Kamerakezelés
+- Objektumok
+- Textúrák
+- Használati útmutató
+- Animációk / objektumok mozgatása
+
+## Speciális funkciók
+- Annak érdekében, hogy a játék nagyobb kihívást jelentsen, köd borítja a hidat, így a játékos nem látja előre az összes akadályt
+- Az autó tud:
+  - fordulni
+  - tolatni
+  - dinamikusan gyorsulni
+  - dinamikusan lassulni
+  - fékezni
+- A kocsi kerekei szintén tudnak gyorsulni / lassulni az autó aktuális sebességétől függően
+- Amikor az autó gyorsul / lassul, előre- / hátrabillen az aktuális művelettől függően
+- Az autó rendelkezik féklámpákkal, tolatólámpákkal, és különleges fel/le kapcsolható első fényszórókkal
+- Akadályba ütközéskor:
+  - az autó megbillen és ütközik
+  - az első fényszórók elkezdenek villogni
+- Ütközésvizsgálat, hogy az autó ne tudjon kimenni az útról
+- Az akadályok véletlenszerű távolságokban vannak legenerálva egymástól
+
+## Billentyűk
+| Billentyű  | Funkció |
+| ------------- | ------------- |
+| Fel, Le, Jobbra, Balra  | Autó mozgatása |
+| W, A, S, D, Shift, Egér  | Kamera mozgatása |
+| R  | Játék alaphelyzetbe állítása |
+| C  | Kamera alaphelyzetbe állítása |
+| F1  | Használati útmutató |
+| F2, F3  | Fények |
+| F4  | Autókövetés - kamera be/ki |
+| F5  | Köd be/ki |
+
+-------------------------------------
+-------------------------------------
