@@ -1,5 +1,5 @@
-## [EN](#computer-graphics-project) [ES](#proyecto-de-gráficos-de-computadora) [HU](#számítógépi-grafika-projekt)
-# Computer Graphics Project
+## [EN](#-computer-graphics-project) [ES](#-proyecto-de-gráficos-de-computadora) [HU](#-számítógépi-grafika-projekt)
+# 💻 Computer Graphics Project
 ## Description
 - This is a project assignment for the university class of Computer Graphics.
 - The project is a game in which the player has to dodge certain obstacles on a bridge with a car and get to the "finish line".
@@ -51,7 +51,7 @@
 -------------------------------------
 -------------------------------------
 
-# Proyecto de Gráficos de Computadora
+# 💻 Proyecto de Gráficos de Computadora
 
 ## Descripción
 - Es un proyecto para la asignatura universitaria de Gráficos de Computadora.
@@ -88,7 +88,7 @@
 - Detección de colisión para que el coche no pueda salirse de la calzada
 - Los obstáculos se generan a distancias aleatorias entre sí
 
-## Atajos de teclado
+## Teclas
 | Tecla  | Acción |
 | ------------- | ------------- |
 | Arriba, Abajo, Derecha, Izquierda  | Movimiento del coche |
@@ -104,7 +104,7 @@
 -------------------------------------
 -------------------------------------
 
-# Számítógépi grafika projekt
+# 💻 Számítógépi grafika projekt
 
 ## Leírás
 - A projekt egy féléves beadandó feladat Számítógépi grafika tárgyra.
