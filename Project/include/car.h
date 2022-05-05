@@ -18,6 +18,8 @@ typedef struct Car {
 
     GLuint texture;
     GLuint wheel_texture;
+    GLuint brake_texture;
+    GLuint reverse_texture;
 
     Material car_material;
 

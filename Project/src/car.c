@@ -105,24 +105,19 @@ void init_car_objects(Car *car) {
     load_model(&(car->front_right_wheel), "assets/models/front_right_wheel.obj");
     load_model(&(car->front_left_wheel), "assets/models/front_left_wheel.obj");
     load_model(&(car->back_wheels), "assets/models/back_wheels.obj");
-    car->texture = load_texture("assets/textures/car.jpg");
 }
 
 void init_car_textures(Car *car) {
     car->wheel_texture = load_texture("assets/textures/tyre.jpg");
+    car->texture = load_texture("assets/textures/car.jpg");
+    car->brake_texture = load_texture("assets/textures/car_brake.jpg");
+    car->reverse_texture = load_texture("assets/textures/car_reverse.jpg");
 }
 
 void update_car(Car *car, Camera *camera, double time) {
-    //Loading car texture according to the car's state of movement
-    if (!car->brake_on && !car->button_brake_on && !car->reverse_on) {
-        car->texture = load_texture("assets/textures/car.jpg");
-    } else if (car->reverse_on && !car->brake_on) {
-        car->texture = load_texture("assets/textures/car_reverse.jpg");
-    } else if (car->speed.x > 0) {
+     if (car->speed.x > 0) {
         car->brake_on = false;
         car->reverse_on = true;
-    } else if (car->speed.x < 0 && car->brake_on && car->button_brake_on) {
-        car->texture = load_texture("assets/textures/car_brake.jpg");
     }
 
     //Acceleration forward - car body and wheels
@@ -132,13 +127,8 @@ void update_car(Car *car, Camera *camera, double time) {
         if (car->body_rotation.y < 0.2) {
             car->body_rotation.y += 0.2;
         }
-        //printf("%d ", (-1) * (int) car->
-        //
-        //speed.x / 2);
-        car->position.x +=
-                cos(degree_to_radian(car->steering_rotation.z)) * car->speed.x * time;
-        car->position.y +=
-                sin(degree_to_radian(car->steering_rotation.z)) * car->speed.x * time;
+        car->position.x += cos(degree_to_radian(car->steering_rotation.z)) * car->speed.x * time;
+        car->position.y += sin(degree_to_radian(car->steering_rotation.z)) * car->speed.x * time;
         car->front_wheel_rotation.y += car->speed.x + car->acceleration * time;
         car->back_wheel_rotation.y += car->speed.x + car->acceleration * time;
         if (car->camera_follow) {
@@ -167,10 +157,8 @@ void update_car(Car *car, Camera *camera, double time) {
             car->body_rotation.y += -0.5;
         }
         car->speed.x += car->acceleration * time;
-        car->position.x +=
-                cos(degree_to_radian(car->steering_rotation.z)) * car->speed.x * time;
-        car->position.y +=
-                sin(degree_to_radian(car->steering_rotation.z)) * car->speed.x * time;;
+        car->position.x += cos(degree_to_radian(car->steering_rotation.z)) * car->speed.x * time;
+        car->position.y += sin(degree_to_radian(car->steering_rotation.z)) * car->speed.x * time;;
         car->front_wheel_rotation.y += car->speed.x + car->acceleration * time;
         car->back_wheel_rotation.y += car->speed.x + car->acceleration * time;
         if (car->camera_follow) {
@@ -187,10 +175,8 @@ void update_car(Car *car, Camera *camera, double time) {
         car->brake_on = false;
         if (car->speed.x < 0) {
             car->speed.x += 20 * time;
-            car->position.x +=
-                    cos(degree_to_radian(car->steering_rotation.z)) * car->speed.x * time;
-            car->position.y +=
-                    sin(degree_to_radian(car->steering_rotation.z)) * car->speed.x * time;
+            car->position.x += cos(degree_to_radian(car->steering_rotation.z)) * car->speed.x * time;
+            car->position.y += sin(degree_to_radian(car->steering_rotation.z)) * car->speed.x * time;
             car->front_wheel_rotation.y += car->speed.x + car->acceleration * time;
             car->back_wheel_rotation.y += car->speed.x + car->acceleration * time;
             if (car->camera_follow) {
@@ -282,6 +268,13 @@ void render_car(const Car *car) {
         glRotatef(car->body_rotation.y, 0, 1, 0);
         glRotatef(car->body_rotation.z, 0, 0, 1);
         glBindTexture(GL_TEXTURE_2D, car->texture);
+        if (!car->brake_on && !car->button_brake_on && !car->reverse_on) {
+            glBindTexture(GL_TEXTURE_2D, car->texture);
+        } else if (car->reverse_on && !car->brake_on) {
+            glBindTexture(GL_TEXTURE_2D, car->reverse_texture);
+        } else if (car->speed.x < 0 && car->brake_on && car->button_brake_on) {
+            glBindTexture(GL_TEXTURE_2D, car->brake_texture);
+        }
         draw_model(&(car->model));
     } else {
         glTranslatef(car->position.x - 0.2, car->position.y, car->position.z - 2.5);
@@ -289,6 +282,13 @@ void render_car(const Car *car) {
         glRotatef(car->body_rotation.y, 0, 1, 0);
         glRotatef(car->body_rotation.z, 0, 0, 1);
         glBindTexture(GL_TEXTURE_2D, car->texture);
+        if (!car->brake_on && !car->button_brake_on && !car->reverse_on) {
+            glBindTexture(GL_TEXTURE_2D, car->texture);
+        } else if (car->reverse_on && !car->brake_on) {
+            glBindTexture(GL_TEXTURE_2D, car->reverse_texture);
+        } else if (car->speed.x < 0 && car->brake_on && car->button_brake_on) {
+            glBindTexture(GL_TEXTURE_2D, car->brake_texture);
+        }
         draw_model(&(car->crash_model));
     }
 
@@ -409,7 +409,6 @@ void toggle_headlight_right(Car *car) {
     GLfloat specular_light[] = {1.0f, 1.0f, 1.0f, 1.0f};
     GLfloat position[] = {0.0f, 0.0f, 0.0f, 1.0f};
     GLfloat spot_direction[] = {car->headlight_position.x, car->headlight_position.y, car->headlight_position.z};
-
 
     glLightfv(GL_LIGHT2, GL_AMBIENT, ambient_light);
     glLightfv(GL_LIGHT2, GL_DIFFUSE, diffuse_light);

@@ -281,11 +281,11 @@ void render_scene(const Scene *scene) {
     //glCallList(waterList);
 
     set_material(&(scene->skull_material));
-    GLuint skullList = glGenLists(1);
-    glNewList(skullList, GL_COMPILE);
+    //GLuint skullList = glGenLists(1);
+    //glNewList(skullList, GL_COMPILE);
     render_skull(scene);
-    glEndList();
-    glCallList(skullList);
+    //glEndList();
+    //glCallList(skullList);
     set_material(&(scene->material));
 
     glPushMatrix();
