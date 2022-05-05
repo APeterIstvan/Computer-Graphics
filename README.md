@@ -1,5 +1,7 @@
 # SzamitogepiGrafika
+## [EN](https://github.com/APeterIstvan/SzamitogepiGrafika#description) [ES](https://github.com/APeterIstvan/SzamitogepiGrafika#descripción) [HU](https://github.com/APeterIstvan/SzamitogepiGrafika#leírás)
 ## Description
+- This is a project assignment for the university class of Computer Graphics
 - The project is a game in which the player has to dodge certain obstacles on a bridge with a car and get to the "finish line".
 
 ## Basic features
@@ -31,9 +33,20 @@
   - the car bumps and crashes
   - the headlights start to blink
 - Collision detection so that the car can't get out of the road
-- The obstacles generate in random distances from each other
+- The obstacles are generated in random distances from each other
 
 ## Keys
 | Keys  | Action |
 | ------------- | ------------- |
-| Up, down, right, lef  | Car movement  |
+| Up, Down, Right, Left  | Car movement |
+| W, A, S, D, Shift, Mouse  | Camera movement |
+| R  | Reset Game |
+| C  | Reset Camera |
+| F1  | Help panel |
+| F2, F3  | Light |
+| F4  | Car following of camera on/off |
+| F5  | Fog on/off |
+
+## Descripción
+
+## Leírás
