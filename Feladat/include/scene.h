@@ -10,7 +10,7 @@
 #include <obj/model.h>
 
 #define ROAD_NUMBERS 0
-#define BARRIER_NUMBERS 15
+#define BARRIER_NUMBERS 9
 
 typedef struct Bridge {
     Model model;
