@@ -39,9 +39,10 @@
 | Keys  | Action |
 | ------------- | ------------- |
 | Up, Down, Right, Left  | Car movement |
-| W, A, S, D, Shift, Mouse  | Camera movement |
+| W, A, S, D, Space, Shift, Mouse  | Camera movement |
 | R  | Reset Game |
 | C  | Reset Camera |
+| V  | Look back |
 | Q  | Headlights |
 | F1  | Help panel |
 | F2, F3  | Light |
@@ -92,9 +93,10 @@
 | Tecla  | Acción |
 | ------------- | ------------- |
 | Arriba, Abajo, Derecha, Izquierda  | Movimiento del coche |
-| W, A, S, D, Shift, Ratón  | Movimiento de la cámara |
+| W, A, S, D, Space, Shift, Ratón  | Movimiento de la cámara |
 | R  | Reiniciar el juego |
 | C  | Reiniciar la cámara |
+| V  | Mirar atrás |
 | Q  | Faros |
 | F1  | Panel de ayuda |
 | F2, F3  | Luces |
@@ -145,9 +147,10 @@
 | Billentyű  | Funkció |
 | ------------- | ------------- |
 | Fel, Le, Jobbra, Balra  | Autó mozgatása |
-| W, A, S, D, Shift, Egér  | Kamera mozgatása |
+| W, A, S, D, Space, Shift, Egér  | Kamera mozgatása |
 | R  | Játék alaphelyzetbe állítása |
 | C  | Kamera alaphelyzetbe állítása |
+| V  | Hátranézés |
 | Q  | Fényszórók |
 | F1  | Használati útmutató |
 | F2, F3  | Fények |
