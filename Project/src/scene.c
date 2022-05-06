@@ -167,6 +167,28 @@ void update_scene(Scene *scene, Camera *camera, Car *car, double time) {
         scene->light.ambient[i] += scene->light.speed * time;
     }
 
+    //Collision detection - road
+    if (car->position.y < -12) {
+        car->position.y = -12;
+        if (car->camera_follow) {
+            camera->position.y = -12;
+        }
+    } else if (car->position.y > 12) {
+        car->position.y = 12;
+        if (car->camera_follow) {
+            camera->position.y = 12;
+        }
+    }
+
+    if (car->position.x > 1240) {
+        car->position.x = 1240;
+        car->speed.x = 0;
+        car->acceleration = 0;
+        if (car->camera_follow) {
+            camera->position.x = 1256;
+        }
+    }
+
     //Collision detection - barriers
     float curr_pos_x;
     float curr_pos_y;
