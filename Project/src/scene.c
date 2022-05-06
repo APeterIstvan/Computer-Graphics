@@ -98,7 +98,7 @@ void init_objects(Scene *scene) {
     load_model(&(scene->road), "assets/models/tower_bridge.obj");
     load_model(&(scene->water.model), "assets/models/water.obj");
     load_model(&(scene->skull.model), "assets/models/skull.obj");
-    //load_model(&(scene->mountain_model), "assets/models/mountain.obj");
+    //load_model(&(scene->mountain_model), "assets/models/mountain2.obj");
 }
 
 void init_textures(Scene *scene) {
@@ -293,7 +293,7 @@ void render_scene(const Scene *scene) {
     draw_model(&(scene->road));
     glPopMatrix();
 
-    //render_mountain();
+    //render_mountain(scene);
 
     render_road(scene);
     render_barrier(scene);
@@ -344,11 +344,11 @@ void render_road(const Scene *scene) {
 }
 
 void render_mountain(const Scene *scene) {
-    /*glPushMatrix();
+    glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, scene->mountain_texture);
     glTranslatef(0, -1000, 0);
     draw_model(&(scene->mountain_model));
-    glPopMatrix();*/
+    glPopMatrix();
 }
 
 void draw_help_panel(GLuint help_panel) {

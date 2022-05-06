@@ -93,7 +93,7 @@ void reshape(GLsizei width, GLsizei height) {
     glFrustum(
             -.08, .08,
             -.06, .06,
-            .1, 15000
+            .1, 16000
     );
 }
 
