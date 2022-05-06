@@ -123,6 +123,7 @@ void update_car(Car *car, Camera *camera, double time) {
     //Acceleration forward - car body and wheels
     if (car->acceleration < 0.0) {
         car->brake_on = true;
+        car->reverse_on = false;
         car->speed.x += car->acceleration * time;
         if (car->body_rotation.y < 0.2) {
             car->body_rotation.y += 0.2;
@@ -144,9 +145,9 @@ void update_car(Car *car, Camera *camera, double time) {
         } else {
             car->reverse_on = true;
         }
-        if (car->speed.x > 0.0 && car->speed.x  < 50) {
+        if (car->speed.x > 0.0 && car->speed.x < 50) {
             car->acceleration = 20;
-        } else if (car->speed.x > 50){
+        } else if (car->speed.x > 50) {
             car->speed.x = 50;
         }
         if (car->body_rotation.y > -1) {
@@ -167,7 +168,7 @@ void update_car(Car *car, Camera *camera, double time) {
     if (car->acceleration == 0.0) {
         car->reverse_on = false;
         car->brake_on = false;
-        if (car->speed.x < 0) {
+        if (car->speed.x < -0.5) {
             car->speed.x += 20 * time;
             car->position.x += cos(degree_to_radian(car->steering_rotation.z)) * car->speed.x * time;
             car->position.y += sin(degree_to_radian(car->steering_rotation.z)) * car->speed.x * time;
@@ -182,7 +183,7 @@ void update_car(Car *car, Camera *camera, double time) {
             } else if (car->body_rotation.y < -0.01 && car->body_rotation.y >= -1.5) {
                 car->body_rotation.y += 0.5;
             }
-        } else if(car->speed.x > 0) {
+        } else if (car->speed.x > 0.5) {
             car->speed.x += -20 * time;
             car->position.x += cos(degree_to_radian(car->steering_rotation.z)) * car->speed.x * time;
             car->position.y += sin(degree_to_radian(car->steering_rotation.z)) * car->speed.x * time;
@@ -207,18 +208,27 @@ void update_car(Car *car, Camera *camera, double time) {
         car->body_rotation.y += 0.5;
     }
 
+    if (car->speed.x == 0 && car->acceleration == 0) {
+        car->front_wheel_rotation_speed.z = 0.0;
+        //car->speed.y = 0;
+    }
+
     //Wheel rotation - front and back
-    if (car->front_wheel_rotation.z > 40) {
-        car->front_wheel_rotation.z = 40;
-    } else if (car->front_wheel_rotation.z < -40) {
-        car->front_wheel_rotation.z = -40;
+    if (car->front_wheel_rotation.z > 35) {
+        car->front_wheel_rotation.z = 35;
+    } else if (car->front_wheel_rotation.z < -35) {
+        car->front_wheel_rotation.z = -35;
     } else {
-        if(car->front_wheel_rotation_speed.z == 0.0 && car->front_wheel_rotation.z < -1){
-            car->front_wheel_rotation.z += 2;
-        } else if(car->front_wheel_rotation_speed.z == 0.0 && car->front_wheel_rotation.z > 1){
-            car->front_wheel_rotation.z += -2;
+        if (car->front_wheel_rotation_speed.z == 0.0 && car->front_wheel_rotation.z < -2) {
+            car->front_wheel_rotation.z += 3;
+        } else if (car->front_wheel_rotation_speed.z == 0.0 && car->front_wheel_rotation.z > 2) {
+            car->front_wheel_rotation.z += -3;
         } else {
-            car->front_wheel_rotation.z += car->front_wheel_rotation_speed.z * time;
+            if (!car->reverse_on) {
+                car->front_wheel_rotation.z += car->front_wheel_rotation_speed.z * time;
+            } else {
+                car->front_wheel_rotation.z += -car->front_wheel_rotation_speed.z * time;
+            }
         }
     }
 
