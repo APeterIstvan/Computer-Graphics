@@ -15,11 +15,17 @@ typedef struct Car {
     Model front_right_wheel;
     Model front_left_wheel;
     Model back_wheels;
+    Model windows;
+    Model headlights;
+    Model flame_left;
+    Model flame_right;
 
     GLuint texture;
     GLuint wheel_texture;
     GLuint brake_texture;
     GLuint reverse_texture;
+    GLuint flame_texture_left;
+    GLuint flame_texture_right;
 
     Material car_material;
 
@@ -51,6 +57,9 @@ typedef struct Car {
     bool party_lights_on;
     vec3 party_lights;
     float headlight_crashed;
+
+    float flame_position;
+    bool flame_on;
 
     bool camera_follow;
 

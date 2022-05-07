@@ -87,6 +87,11 @@ void init_car(Car *car) {
 
     car->headlights_on = false;
 
+    car->party_lights_on = false;
+
+    car->flame_position = 0.0;
+    car->flame_on = true;
+
     car->car_started = false;
 
     //Audio initialization values
@@ -100,11 +105,15 @@ void init_car(Car *car) {
 }
 
 void init_car_objects(Car *car) {
-    load_model(&(car->model), "assets/models/car.obj");
+    load_model(&(car->model), "assets/models/porsche_nowindows.obj");
     load_model(&(car->crash_model), "assets/models/porsche_crashed.obj");
     load_model(&(car->front_right_wheel), "assets/models/front_right_wheel.obj");
     load_model(&(car->front_left_wheel), "assets/models/front_left_wheel.obj");
     load_model(&(car->back_wheels), "assets/models/back_wheels.obj");
+    load_model(&(car->windows), "assets/models/windows.obj");
+    load_model(&(car->headlights), "assets/models/headlights.obj");
+    load_model(&(car->flame_left), "assets/models/flame.obj");
+    load_model(&(car->flame_right), "assets/models/flame.obj");
 }
 
 void init_car_textures(Car *car) {
@@ -112,6 +121,8 @@ void init_car_textures(Car *car) {
     car->texture = load_texture("assets/textures/car.jpg");
     car->brake_texture = load_texture("assets/textures/car_brake.jpg");
     car->reverse_texture = load_texture("assets/textures/car_reverse.jpg");
+    car->flame_texture_left = load_texture("assets/textures/flame.jpg");
+    car->flame_texture_right = load_texture("assets/textures/flame.jpg");
 }
 
 void update_car(Car *car, Camera *camera, double time) {
@@ -208,9 +219,9 @@ void update_car(Car *car, Camera *camera, double time) {
         car->body_rotation.y += 0.5;
     }
 
+    //The car can't turn if it doesn't move
     if (car->speed.x == 0 && car->acceleration == 0) {
         car->front_wheel_rotation_speed.z = 0.0;
-        //car->speed.y = 0;
     }
 
     //Wheel rotation - front and back
@@ -231,8 +242,6 @@ void update_car(Car *car, Camera *camera, double time) {
             }
         }
     }
-
-
     car->steering_rotation.z += car->front_wheel_rotation_speed.z * time;
     car->back_wheel_rotation.x += car->back_wheel_rotation_speed.x * time;
     car->back_wheel_rotation.z += car->back_wheel_rotation_speed.z * time;
@@ -244,6 +253,18 @@ void update_car(Car *car, Camera *camera, double time) {
     car->party_lights.x = rand() / (RAND_MAX / (1.0 - 0.0));
     car->party_lights.y = rand() / (RAND_MAX / (1.0 - 0.0));
     car->party_lights.z = rand() / (RAND_MAX / (1.0 - 0.0));
+
+    if (car->acceleration == 0.0 && !car->brake_on && !car->reverse_on && car->flame_on){
+        if(car->position.x - car->flame_position < 9) {
+            car->flame_position += 3 * time;
+            if(car->position.x - car->flame_position < 3){
+                car->flame_position += -3 * time;
+                car->flame_on = false;
+            }
+        }
+    } else {
+        car->flame_position = car->position.x + 3;
+    }
 
     //AUDIO
     if (car->car_started) {
@@ -329,6 +350,54 @@ void render_car(const Car *car) {
     glBindTexture(GL_TEXTURE_2D, car->wheel_texture);
     draw_model(&(car->back_wheels));
     glPopMatrix();
+
+    render_windows(car);
+    render_headlights(car);
+    //render_flame(car);
+    glPopMatrix();
+}
+
+void render_windows(Car *car){
+    glPushMatrix();
+    glEnable( GL_BLEND );
+    glDepthMask(GL_FALSE);
+    glBlendFunc( GL_SRC_ALPHA+2, GL_ONE_MINUS_SRC_ALPHA );
+    glTranslatef(car->position.x - 0.2, car->position.y, car->position.z - 0.5);
+    glRotatef(car->body_rotation.x, 1, 0, 0);
+    glRotatef(car->body_rotation.y, 0, 1, 0);
+    glRotatef(car->body_rotation.z, 0, 0, 1);
+    draw_model(&(car->windows));
+    glDepthMask( GL_TRUE );
+    glDisable( GL_BLEND );
+    glPopMatrix();
+}
+
+void render_headlights(Car *car){
+    glPushMatrix();
+    glEnable( GL_BLEND );
+    glDepthMask(GL_FALSE);
+    glBlendFunc( GL_SRC_ALPHA+1.5, GL_ONE_MINUS_SRC_ALPHA+2 );
+    glTranslatef(car->position.x - 0.2, car->position.y, car->position.z - 0.5);
+    glRotatef(car->body_rotation.x, 1, 0, 0);
+    glRotatef(car->body_rotation.y, 0, 1, 0);
+    glRotatef(car->body_rotation.z, 0, 0, 1);
+    draw_model(&(car->headlights));
+    glDepthMask( GL_TRUE );
+    glDisable( GL_BLEND );
+    glPopMatrix();
+}
+
+void render_flame(Car *car){
+    glPushMatrix();
+    glTranslatef(car->flame_position, car->position.y - 2.1, 1.3);
+    glBindTexture(GL_TEXTURE_2D, car->flame_texture_left);
+    draw_model(&(car->flame_left));
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(car->position.x+3, car->position.y+2.1, 1.3);
+    glBindTexture(GL_TEXTURE_2D, car->flame_texture_right);
+    draw_model(&(car->flame_right));
     glPopMatrix();
 }
 
