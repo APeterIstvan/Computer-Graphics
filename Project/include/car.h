@@ -16,6 +16,7 @@ typedef struct Car {
     Model front_left_wheel;
     Model back_wheels;
     Model windows;
+    Model windows_crashed;
     Model headlights;
     Model flame_left;
     Model flame_right;

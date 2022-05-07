@@ -106,11 +106,12 @@ void init_car(Car *car) {
 
 void init_car_objects(Car *car) {
     load_model(&(car->model), "assets/models/porsche_nowindows.obj");
-    load_model(&(car->crash_model), "assets/models/porsche_crashed.obj");
+    load_model(&(car->crash_model), "assets/models/porsche_crashed_nowindows.obj");
     load_model(&(car->front_right_wheel), "assets/models/front_right_wheel.obj");
     load_model(&(car->front_left_wheel), "assets/models/front_left_wheel.obj");
     load_model(&(car->back_wheels), "assets/models/back_wheels.obj");
     load_model(&(car->windows), "assets/models/windows.obj");
+    load_model(&(car->windows_crashed), "assets/models/windows_crashed.obj");
     load_model(&(car->headlights), "assets/models/headlights.obj");
     load_model(&(car->flame_left), "assets/models/flame.obj");
     load_model(&(car->flame_right), "assets/models/flame.obj");
@@ -352,7 +353,9 @@ void render_car(const Car *car) {
     glPopMatrix();
 
     render_windows(car);
-    render_headlights(car);
+    if(!car->crash_state) {
+        render_headlights(car);
+    }
     //render_flame(car);
     glPopMatrix();
 }
@@ -361,12 +364,20 @@ void render_windows(Car *car){
     glPushMatrix();
     glEnable( GL_BLEND );
     glDepthMask(GL_FALSE);
-    glBlendFunc( GL_SRC_ALPHA+2, GL_ONE_MINUS_SRC_ALPHA );
-    glTranslatef(car->position.x - 0.2, car->position.y, car->position.z - 0.5);
+    glBlendFunc( GL_SRC_ALPHA-2, GL_ONE_MINUS_SRC_ALPHA );
+    if(!car->crash_state) {
+        glTranslatef(car->position.x - 0.2, car->position.y, car->position.z - 0.5);
+    } else {
+        glTranslatef(car->position.x - 0.2, car->position.y, car->position.z - 0.75);
+    }
     glRotatef(car->body_rotation.x, 1, 0, 0);
     glRotatef(car->body_rotation.y, 0, 1, 0);
     glRotatef(car->body_rotation.z, 0, 0, 1);
-    draw_model(&(car->windows));
+    if(!car->crash_state) {
+        draw_model(&(car->windows));
+    } else {
+        draw_model(&(car->windows_crashed));
+    }
     glDepthMask( GL_TRUE );
     glDisable( GL_BLEND );
     glPopMatrix();
@@ -376,7 +387,7 @@ void render_headlights(Car *car){
     glPushMatrix();
     glEnable( GL_BLEND );
     glDepthMask(GL_FALSE);
-    glBlendFunc( GL_SRC_ALPHA+1.5, GL_ONE_MINUS_SRC_ALPHA+2 );
+    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     glTranslatef(car->position.x - 0.2, car->position.y, car->position.z - 0.5);
     glRotatef(car->body_rotation.x, 1, 0, 0);
     glRotatef(car->body_rotation.y, 0, 1, 0);
