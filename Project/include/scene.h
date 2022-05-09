@@ -9,8 +9,8 @@
 
 #include <obj/model.h>
 
-#define ROAD_NUMBERS 1
-#define BARRIER_NUMBERS 29
+#define ROAD_NUMBERS 0
+#define BARRIER_NUMBERS 14
 
 typedef struct Bridge {
     Model model;
@@ -74,6 +74,8 @@ typedef struct Scene {
     bool help_panel_state;
     GLuint help_panel_texture;
     double uptime;
+
+    GLuint skullList;
 } Scene;
 
 void load_skybox(Scene scene);

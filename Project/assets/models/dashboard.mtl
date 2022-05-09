@@ -1,0 +1,13 @@
+# Blender MTL File: 'None'
+# Material Count: 1
+
+newmtl Interior_Dashboard
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\x\\Downloads\\Interior_Dashboard_v1_L3.123cab27a4ad-208c-46b1-ab3b-f2fa85eb414b\\Interior_Dashboard_v1_L3.123cab27a4ad-208c-46b1-ab3b-f2fa85eb414b\\Interior_Dashboard_body.jpg

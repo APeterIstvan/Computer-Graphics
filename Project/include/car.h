@@ -20,6 +20,10 @@ typedef struct Car {
     Model headlights;
     Model flame_left;
     Model flame_right;
+    Model car_seat;
+    Model engine;
+    Model steering_wheel;
+    Model dashboard;
 
     GLuint texture;
     GLuint wheel_texture;
@@ -27,6 +31,14 @@ typedef struct Car {
     GLuint reverse_texture;
     GLuint flame_texture_left;
     GLuint flame_texture_right;
+    GLuint seat_texture;
+    GLuint engine_texture;
+    GLuint window_texture;
+    GLuint steering_wheel_texture;
+    GLuint dashboard_texture;
+
+    GLuint seatList;
+    GLuint engineList;
 
     Material car_material;
 
@@ -78,11 +90,19 @@ void update_car(Car *car, Camera *camera, double time);
 
 void render_car(const Car *car);
 
+void render_windows(Car *car);
+
+void render_headlights(Car *car);
+
+void render_flame(Car *car);
+
 void render_lights(Car *car);
 
 void toggle_headlight_left(Car *car);
 
 void toggle_headlight_right(Car *car);
+
+void set_car_lighting(Car *car);
 
 void set_car_material(const Material *material);
 
@@ -112,9 +132,5 @@ void toggle_headlights(Car *car, bool status);
 
 void set_camera_follow_state(Car *car, bool state);
 
-/**
- * Render the car objects.
- */
-void render_car(const Car *car);
 
 #endif /* CAR_H */

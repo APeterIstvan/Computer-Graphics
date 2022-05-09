@@ -72,7 +72,7 @@ void init_scene(Scene *scene) {
     //Water initialization values
     scene->water.position.x = -1500;
     scene->water.position.y = 0.0;
-    scene->water.position.z = -45;
+    scene->water.position.z = -55;
 
     scene->water.motion_up = true;
 
@@ -90,6 +90,11 @@ void init_scene(Scene *scene) {
 
     //Help panel initialization values
     scene->help_panel_state = false;
+
+    scene->skullList = glGenLists(1);
+    glNewList(scene->skullList, GL_COMPILE);
+    render_skull(scene);
+    glEndList();
 }
 
 void init_objects(Scene *scene) {
@@ -106,6 +111,7 @@ void init_textures(Scene *scene) {
     scene->water.texture = load_texture("assets/textures/water3.jpg");
     scene->help_panel_texture = load_texture("assets/textures/help.jpg");
     scene->skybox_texture = load_texture("assets/textures/sky.jpg");
+    scene->skull.texture = load_texture("assets/textures/skull_texture.jpg");
     //scene->mountain_texture = load_texture("assets/textures/mountain.jpg");
 }
 
@@ -265,12 +271,12 @@ void update_scene(Scene *scene, Camera *camera, Car *car, double time) {
     }
 
     //Water motion
-    if (scene->water.position.z <= -30 && scene->water.motion_up == true) {
+    if (scene->water.position.z <= -40 && scene->water.motion_up == true) {
         scene->water.position.z += 4 * time;
     } else {
         scene->water.motion_up = false;
         scene->water.position.z += -4 * time;
-        if (scene->water.position.z <= -40 && scene->water.motion_up == false) {
+        if (scene->water.position.z <= -50 && scene->water.motion_up == false) {
             scene->water.motion_up = true;
             scene->water.position.z += 4 * time;
         }
@@ -302,11 +308,8 @@ void render_scene(const Scene *scene) {
     //glCallList(waterList);
 
     set_material(&(scene->skull_material));
-    //GLuint skullList = glGenLists(1);
-    //glNewList(skullList, GL_COMPILE);
-    render_skull(scene);
-    //glEndList();
-    //glCallList(skullList);
+
+    glCallList(scene->skullList);
     set_material(&(scene->material));
 
     glPushMatrix();
@@ -338,9 +341,10 @@ void render_barrier(const Scene *scene) {
 void render_skull(const Scene *scene) {
     glPushMatrix();
     glTranslatef(scene->bridge[ROAD_NUMBERS - 1].position.x - 1260, 0, 40);
-    glBegin(GL_TRIANGLES);
+    glBindTexture(GL_TEXTURE_2D, scene->skull.texture);
+    //glBegin(GL_TRIANGLES);
     draw_model(&(scene->skull.model));
-    glEnd();
+    //glEnd();
     glPopMatrix();
 }
 
