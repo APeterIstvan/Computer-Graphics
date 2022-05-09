@@ -112,6 +112,11 @@ void init_car(Car *car) {
     glNewList(car->engineList, GL_COMPILE);
     render_engine(car);
     glEndList();
+
+    car->dashboardList = glGenLists(3);
+    glNewList(car->dashboardList, GL_COMPILE);
+    render_dashboard(car);
+    glEndList();
 }
 
 void init_car_objects(Car *car) {
@@ -372,7 +377,11 @@ void render_car(const Car *car) {
     draw_model(&(car->back_wheels));
     glPopMatrix();
 
-    render_dashboard(car);
+    glPushMatrix();
+    glTranslatef(car->position.x - 3, car->position.y+0.2, 2.8);
+    glCallList(car->dashboardList);
+    glPopMatrix();
+
     render_steering_wheel(car);
 
     glPushMatrix();
@@ -493,7 +502,6 @@ void render_steering_wheel(Car *car){
 
 void render_dashboard(Car *car){
     glPushMatrix();
-    glTranslatef(car->position.x - 3, car->position.y+0.2, 2.8);
     glBindTexture(GL_TEXTURE_2D, car->dashboard_texture);
     draw_model(&(car->dashboard));
     glPopMatrix();

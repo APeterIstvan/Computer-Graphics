@@ -39,6 +39,7 @@ typedef struct Car {
 
     GLuint seatList;
     GLuint engineList;
+    GLuint dashboardList;
 
     Material car_material;
 
