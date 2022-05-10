@@ -9,8 +9,8 @@
 
 #include <obj/model.h>
 
-#define ROAD_NUMBERS 0
-#define BARRIER_NUMBERS 14
+#define ROAD_NUMBERS 1
+#define BARRIER_NUMBERS 29
 
 typedef struct Bridge {
     Model model;
@@ -67,6 +67,7 @@ typedef struct Scene {
     GLuint mountain_texture;
 
     Car car;
+    SDL_AudioDeviceID crash_sound;
 
     GLuint skybox_texture;
     bool fog_state;
@@ -76,6 +77,14 @@ typedef struct Scene {
     double uptime;
 
     GLuint skullList;
+    GLuint bridgeList;
+    GLuint barrierList;
+    GLuint waterList;
+    GLuint mountainList;
+
+    SDL_AudioSpec wav_spec;
+    Uint32 wav_length;
+    Uint8 *wav_buffer;
 } Scene;
 
 void load_skybox(Scene scene);

@@ -24,6 +24,7 @@ typedef struct Car {
     Model engine;
     Model steering_wheel;
     Model dashboard;
+    Model back_seat;
 
     GLuint texture;
     GLuint wheel_texture;
@@ -79,6 +80,13 @@ typedef struct Car {
 
     bool car_started;
     SDL_AudioDeviceID car_start;
+    SDL_AudioDeviceID idling;
+
+    SDL_AudioDeviceID acceleation_sound;
+    SDL_AudioDeviceID slow_down_sound;
+    SDL_AudioSpec wav_spec;
+    Uint32 wav_length;
+    Uint8 *wav_buffer;
 } Car;
 
 void init_car(Car *car);

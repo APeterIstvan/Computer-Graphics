@@ -93,7 +93,7 @@ void reshape(GLsizei width, GLsizei height) {
     glFrustum(
             -.08, .08,
             -.06, .06,
-            .1, 16000
+            .1, 50000
     );
 }
 
@@ -113,16 +113,16 @@ void handle_app_events(App *app) {
                         app->is_running = false;
                         break;
                     case SDL_SCANCODE_W:
-                        set_camera_speed(&(app->camera), 20);
+                        set_camera_speed(&(app->camera), 5);
                         break;
                     case SDL_SCANCODE_S:
-                        set_camera_speed(&(app->camera), -20);
+                        set_camera_speed(&(app->camera), -5);
                         break;
                     case SDL_SCANCODE_A:
-                        set_camera_side_speed(&(app->camera), 20);
+                        set_camera_side_speed(&(app->camera), 5);
                         break;
                     case SDL_SCANCODE_D:
-                        set_camera_side_speed(&(app->camera), -20);
+                        set_camera_side_speed(&(app->camera), -5);
                         break;
                     case SDL_SCANCODE_C:
                         app->camera.position.x = app->car.position.x + 16;
@@ -142,6 +142,8 @@ void handle_app_events(App *app) {
                         break;
                     case SDL_SCANCODE_E:
                         app->car.car_started = !app->car.car_started;
+                        //SDL_PauseAudioDevice(app->car.car_start, 0);
+                        //SDL_QueueAudio(app->car.car_start, app->car.wav_buffer, app->car.wav_length);
                         break;
                     case SDL_SCANCODE_Q:
                         toggle_headlights(&(app->car), !(app->car.headlights_on));
@@ -167,11 +169,11 @@ void handle_app_events(App *app) {
                         set_car_front_wheel_rotation_z_speed(&(app->car), 20);
                         break;
                     case SDL_SCANCODE_SPACE:
-                        set_camera_vertical_speed(&(app->camera), 20);
+                        set_camera_vertical_speed(&(app->camera), 5);
                         set_car_brake_speed(&(app->car), 40);
                         break;
                     case SDL_SCANCODE_LSHIFT:
-                        set_camera_vertical_speed(&(app->camera), -20);
+                        set_camera_vertical_speed(&(app->camera), -5);
                         break;
                     case SDL_SCANCODE_F1:
                         display_help_panel(&(app->scene), !(app->scene.help_panel_state));

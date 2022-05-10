@@ -95,25 +95,26 @@ void init_car(Car *car) {
     car->car_started = false;
 
     //Audio initialization values
-    SDL_AudioSpec wav_spec;
-    Uint32 wav_length;
-    Uint8 *wav_buffer;
+    SDL_LoadWAV("assets/audio/car_start.wav", &car->wav_spec, &car->wav_buffer, &car->wav_length);
+    car->car_start = SDL_OpenAudioDevice(NULL, 0, &car->wav_spec, NULL, 0);
+    SDL_QueueAudio(car->car_start, car->wav_buffer, car->wav_length);
 
-    SDL_LoadWAV("assets/audio/car_start.wav", &wav_spec, &wav_buffer, &wav_length);
-    car->car_start = SDL_OpenAudioDevice(NULL, 0, &wav_spec, NULL, 0);
-    SDL_QueueAudio(car->car_start, wav_buffer, wav_length);
+    SDL_LoadWAV("assets/audio/car_idling.wav", &car->wav_spec, &car->wav_buffer, &car->wav_length);
+    car->idling = SDL_OpenAudioDevice(NULL, 0, &car->wav_spec, NULL, 0);
+    SDL_QueueAudio(car->idling, car->wav_buffer, car->wav_length);
 
-    car->seatList = glGenLists(2);
+    car->seatList = glGenLists(1);
     glNewList(car->seatList, GL_COMPILE);
     render_car_seat(car);
+    render_back_seat(car);
     glEndList();
 
-    car->engineList = glGenLists(3);
+    /*car->engineList = glGenLists(1);
     glNewList(car->engineList, GL_COMPILE);
     render_engine(car);
-    glEndList();
+    glEndList();*/
 
-    car->dashboardList = glGenLists(3);
+    car->dashboardList = glGenLists(1);
     glNewList(car->dashboardList, GL_COMPILE);
     render_dashboard(car);
     glEndList();
@@ -131,6 +132,7 @@ void init_car_objects(Car *car) {
     load_model(&(car->flame_left), "assets/models/flame.obj");
     load_model(&(car->flame_right), "assets/models/flame.obj");
     load_model(&(car->car_seat), "assets/models/car_seat.obj");
+    load_model(&(car->back_seat), "assets/models/car_seat_back.obj");
     load_model(&(car->engine), "assets/models/engine.obj");
     load_model(&(car->steering_wheel), "assets/models/steering_wheel.obj");
     load_model(&(car->dashboard), "assets/models/dashboard.obj");
@@ -294,8 +296,15 @@ void update_car(Car *car, Camera *camera, double time) {
     //AUDIO
     if (car->car_started) {
         SDL_PauseAudioDevice(car->car_start, 0);
+        SDL_ClearQueuedAudio(car->car_start);
+        /*if(car->acceleration == 0 && car->speed.x == 0) {
+            SDL_QueueAudio(car->idling, car->wav_buffer, car->wav_length);
+            SDL_PauseAudioDevice(car->idling, 0);
+        }*/
     } else {
         SDL_PauseAudioDevice(car->car_start, 1);
+
+        //SDL_QueueAudio(car->car_start, car->wav_buffer, car->wav_length);
     }
 }
 
@@ -384,11 +393,11 @@ void render_car(const Car *car) {
 
     render_steering_wheel(car);
 
-    glPushMatrix();
+    /*glPushMatrix();
     glTranslatef(car->position.x + 3.8, car->position.y-0.325, 2);
     glRotatef(car->body_rotation.y-0.5, 0, 1, 0);
     glCallList(car->engineList);
-    glPopMatrix();
+    glPopMatrix();*/
 
     glPushMatrix();
     glTranslatef(car->position.x - 0.5, car->position.y - 1.3, 1);
@@ -483,6 +492,14 @@ void render_car_seat(Car *car){
     glPopMatrix();
 }
 
+void render_back_seat(Car *car){
+    glPushMatrix();
+    glTranslatef(3, 0, 0.5);
+    glBindTexture(GL_TEXTURE_2D, car->seat_texture);
+    draw_model(&(car->back_seat));
+    glPopMatrix();
+}
+
 void render_engine(Car *car){
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, car->engine_texture);
@@ -492,7 +509,7 @@ void render_engine(Car *car){
 
 void render_steering_wheel(Car *car){
     glPushMatrix();
-    glTranslatef(car->position.x - 2, car->position.y - 1.35, 3);
+    glTranslatef(car->position.x - 2, car->position.y - 1.4, 2.75);
     glRotatef(car->front_wheel_rotation.z*2, 1, 0, 0);
     //glRotatef(car->body_rotation.y, 0, 1, 0);
     glBindTexture(GL_TEXTURE_2D, car->steering_wheel_texture);
