@@ -12,16 +12,10 @@ void init_scene(Scene *scene) {
 
     //BRIDGE GENERATION
     float curr_pos_minus = -2499;
-    float curr_pos_plus = 2499;
     for (int i = 0; i < ROAD_NUMBERS; i++) {
         scene->bridge[i].texture = load_texture("assets/textures/tower_bridge.jpg");
-        /*if (i > (ROAD_NUMBERS / 2)) {
-            scene->bridge[i].position.x = curr_pos_plus;
-            curr_pos_plus = scene->bridge[i].position.x + 2499;
-         } else {*/
-            scene->bridge[i].position.x = curr_pos_minus;
-            curr_pos_minus = scene->bridge[i].position.x - 2499;
-        //}
+        scene->bridge[i].position.x = curr_pos_minus;
+        curr_pos_minus = scene->bridge[i].position.x - 2499;
     }
 
     //BARRIER GENERATION
@@ -95,6 +89,28 @@ void init_scene(Scene *scene) {
     scene->crash_sound = SDL_OpenAudioDevice(NULL, 0, &scene->wav_spec, NULL, 0);
     //SDL_QueueAudio(scene->crash_sound, scene->wav_buffer, scene->wav_length);
 
+    init_display_lists(scene);
+}
+
+void init_objects(Scene *scene) {
+    load_model(&(scene->bridge_model), "assets/models/tower_bridge.obj");
+    load_model(&(scene->barrier_model), "assets/models/barrier.obj");
+    load_model(&(scene->road), "assets/models/tower_bridge.obj");
+    load_model(&(scene->water.model), "assets/models/water.obj");
+    load_model(&(scene->skull.model), "assets/models/skull.obj");
+    load_model(&(scene->mountain_model), "assets/models/mountain.obj");
+}
+
+void init_textures(Scene *scene) {
+    scene->bridge_texture = load_texture("assets/textures/tower_bridge.jpg");
+    scene->water.texture = load_texture("assets/textures/water3.jpg");
+    scene->help_panel_texture = load_texture("assets/textures/help.jpg");
+    scene->skybox_texture = load_texture("assets/textures/sky.jpg");
+    scene->skull.texture = load_texture("assets/textures/skull_texture.jpg");
+    scene->mountain_texture = load_texture("assets/textures/mountain2.jpg");
+}
+
+void init_display_lists(Scene *scene){
     scene->skullList = glGenLists(1);
     glNewList(scene->skullList, GL_COMPILE);
     render_skull(scene);
@@ -122,25 +138,7 @@ void init_scene(Scene *scene) {
     glEndList();
 }
 
-void init_objects(Scene *scene) {
-    load_model(&(scene->bridge_model), "assets/models/tower_bridge.obj");
-    load_model(&(scene->barrier_model), "assets/models/barrier.obj");
-    load_model(&(scene->road), "assets/models/tower_bridge.obj");
-    load_model(&(scene->water.model), "assets/models/water.obj");
-    load_model(&(scene->skull.model), "assets/models/skull.obj");
-    load_model(&(scene->mountain_model), "assets/models/mountain.obj");
-}
-
-void init_textures(Scene *scene) {
-    scene->bridge_texture = load_texture("assets/textures/tower_bridge.jpg");
-    scene->water.texture = load_texture("assets/textures/water3.jpg");
-    scene->help_panel_texture = load_texture("assets/textures/help.jpg");
-    scene->skybox_texture = load_texture("assets/textures/sky.jpg");
-    scene->skull.texture = load_texture("assets/textures/skull_texture.jpg");
-    scene->mountain_texture = load_texture("assets/textures/mountain2.jpg");
-}
-
-void set_lighting(Scene *scene) {
+void set_lighting(const Scene *scene) {
 
     if (scene->fog_state) {
         glEnable(GL_FOG);
@@ -199,6 +197,23 @@ void update_scene(Scene *scene, Camera *camera, Car *car, double time) {
     }
 
     //Collision detection - road
+    road_collision_detection(car, camera);
+
+    //Collision detection - barriers
+    obstacle_collision_detection(scene, car, time);
+
+    /*if(car->acceleration != 0 || car->speed.x != 0){
+        SDL_ClearQueuedAudio(scene->crash_sound);
+    }*/
+
+    //Finish line - Skull
+    finish_line(scene, car, camera);
+
+    //Water motion
+    water_motion(scene, time);
+}
+
+void road_collision_detection(Car *car, Camera *camera) {
     if (car->position.y < -12) {
         car->position.y = -12;
         if (car->camera_follow) {
@@ -219,11 +234,10 @@ void update_scene(Scene *scene, Camera *camera, Car *car, double time) {
             camera->position.x = 1256;
         }
     }
+}
 
-    //Collision detection - barriers
-    float curr_pos_x;
+void obstacle_collision_detection(Scene *scene, Car *car, double time) {
     float curr_pos_y;
-    float barrier_size;
     for (int i = 0; i < BARRIER_NUMBERS; i++) {
         if (i % 2) {
             if (scene->barrier[i].position.x + scene->barrier[i].plus_size <= car->position.x &&
@@ -265,9 +279,9 @@ void update_scene(Scene *scene, Camera *camera, Car *car, double time) {
                    car->position.x - 10 <= scene->barrier[i].position.x
                    && scene->barrier[i].position.y - 16 <= car->position.y &&
                    car->position.y - 8 <= scene->barrier[i].position.y) {
-           /* SDL_QueueAudio(scene->crash_sound, scene->wav_buffer, scene->wav_length);
-            SDL_PauseAudioDevice(scene->crash_sound, 0);
-            SDL_ClearQueuedAudio(scene->crash_sound);*/
+            /* SDL_QueueAudio(scene->crash_sound, scene->wav_buffer, scene->wav_length);
+             SDL_PauseAudioDevice(scene->crash_sound, 0);
+             SDL_ClearQueuedAudio(scene->crash_sound);*/
             car->speed.x = 0;
 
             car->crash_state = true;
@@ -287,22 +301,18 @@ void update_scene(Scene *scene, Camera *camera, Car *car, double time) {
 
                 car->acceleration = 0;
             }
-                //camera->position.x += camera->speed.x * time;
-                /*if(car->camera_follow) {
-                    printf("%f ", camera->position.x);
-                    camera->position.x = cam_cur_pos;
-                    camera->position.y += 0;
-                    camera->position.z += 0;
-                }*/
+            //camera->position.x += camera->speed.x * time;
+            /*if(car->camera_follow) {
+                printf("%f ", camera->position.x);
+                camera->position.x = cam_cur_pos;
+                camera->position.y += 0;
+                camera->position.z += 0;
+            }*/
         }
     }
+}
 
-
-    /*if(car->acceleration != 0 || car->speed.x != 0){
-        SDL_ClearQueuedAudio(scene->crash_sound);
-    }*/
-
-    //Finish line - Skull
+void finish_line(Scene *scene, Car *car, Camera *camera) {
     if (car->position.x <= scene->bridge[ROAD_NUMBERS - 1].position.x - 1240 - 10) {
         car->position.x = 0;
         car->position.y = 0;
@@ -313,8 +323,9 @@ void update_scene(Scene *scene, Camera *camera, Car *car, double time) {
         camera->speed.y = 0;
         car->crash_state = false;
     }
+}
 
-    //Water motion
+void water_motion(Scene *scene, double time) {
     if (scene->water.position.z <= -40 && scene->water.motion_up == true) {
         scene->water.position.z += 4 * time;
     } else {
@@ -328,7 +339,6 @@ void update_scene(Scene *scene, Camera *camera, Car *car, double time) {
 }
 
 void render_scene(const Scene *scene) {
-
     //Help panel status
     if (scene->help_panel_state) {
         draw_help_panel(scene->help_panel_texture);
@@ -342,7 +352,7 @@ void render_scene(const Scene *scene) {
     //Skybox
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, scene->skybox_texture);
-    load_skybox(*scene);
+    load_skybox();
     glPopMatrix();
 
     glPushMatrix();
@@ -431,7 +441,7 @@ void render_road(const Scene *scene) {
     }
 }
 
-void render_init_bridge(const Scene *scene){
+void render_init_bridge(const Scene *scene) {
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, scene->bridge_texture);
     glTranslatef(0, 0, 95);
@@ -472,7 +482,7 @@ void draw_help_panel(GLuint help_panel) {
     glEnable(GL_LIGHTING);
 }
 
-void load_skybox(Scene scene) {
+void load_skybox() {
     double theta, phi1, phi2;
     double x1, y1, z1;
     double x2, y2, z2;

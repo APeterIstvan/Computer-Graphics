@@ -87,21 +87,21 @@ typedef struct Scene {
     Uint8 *wav_buffer;
 } Scene;
 
-void load_skybox(Scene scene);
-
-void set_light_speed(Scene *scene, float speed);
-
-void set_fog_speed(Scene *scene, float speed);
-
 /**
  * Initialize the scene by loading models.
  */
 void init_scene(Scene *scene);
 
+void init_objects(Scene *scene);
+
+void init_textures(Scene *scene);
+
+void init_display_lists(Scene *scene);
+
 /**
  * Set the lighting of the scene.
  */
-void set_lighting(Scene *scene);
+void set_lighting(const Scene *scene);
 
 /**
  * Set the current material.
@@ -113,19 +113,44 @@ void set_material(const Material *material);
  */
 void update_scene(Scene *scene, Camera *camera, Car *car, double time);
 
+void road_collision_detection(Car *car, Camera *camera);
+
+void obstacle_collision_detection(Scene *scene, Car *car, double time);
+
+void finish_line(Scene *scene, Car *car, Camera *camera);
+
+void water_motion(Scene *scene, double time);
+
 /**
+ *
  * Render the scene objects.
  */
 void render_scene(const Scene *scene);
+
+void render_barrier(const Scene *scene);
+
+void render_skull(const Scene *scene);
+
+void render_water(const Scene *scene);
+
+void render_road(const Scene *scene);
+
+void render_init_bridge(const Scene *scene);
+
+void render_mountain(const Scene *scene);
+
+void draw_help_panel(GLuint help_panel);
+
+void load_skybox();
 
 /**
  * Draw the origin of the world coordinate system.
  */
 void draw_origin();
 
-void rotate_camera(Camera *camera, double horizontal, double vertical);
+void set_light_speed(Scene *scene, float speed);
 
-void draw_help_panel(GLuint help_panel);
+void set_fog_speed(Scene *scene, float speed);
 
 void set_fog_state(Scene *scene, bool state);
 

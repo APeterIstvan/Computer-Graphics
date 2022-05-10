@@ -18,10 +18,7 @@ typedef struct Car {
     Model windows;
     Model windows_crashed;
     Model headlights;
-    Model flame_left;
-    Model flame_right;
     Model car_seat;
-    Model engine;
     Model steering_wheel;
     Model dashboard;
     Model back_seat;
@@ -30,16 +27,12 @@ typedef struct Car {
     GLuint wheel_texture;
     GLuint brake_texture;
     GLuint reverse_texture;
-    GLuint flame_texture_left;
-    GLuint flame_texture_right;
     GLuint seat_texture;
-    GLuint engine_texture;
     GLuint window_texture;
     GLuint steering_wheel_texture;
     GLuint dashboard_texture;
 
     GLuint seatList;
-    GLuint engineList;
     GLuint dashboardList;
 
     Material car_material;
@@ -69,12 +62,7 @@ typedef struct Car {
 
     vec3 headlight_position;
     bool headlights_on;
-    bool party_lights_on;
-    vec3 party_lights;
     float headlight_crashed;
-
-    float flame_position;
-    bool flame_on;
 
     bool camera_follow;
 
@@ -97,23 +85,47 @@ void init_car_textures(Car *car);
 
 void update_car(Car *car, Camera *camera, double time);
 
+void acceleration_forward(Car *car, Camera *camera, double time);
+
+void acceleration_backwards(Car *car, Camera *camera, double time);
+
+void dynamic_slow_down(Car *car, Camera *camera, double time);
+
+void wheel_rotation(Car *car, double time);
+
 void render_car(const Car *car);
 
-void render_windows(Car *car);
+void render_body(const Car *car);
 
-void render_headlights(Car *car);
+void render_wheels(const Car *car);
 
-void render_flame(Car *car);
+void render_windows(const Car *car);
 
-void render_lights(Car *car);
+void render_headlights(const Car *car);
 
-void toggle_headlight_left(Car *car);
+void render_lights(const Car *car);
 
-void toggle_headlight_right(Car *car);
+void render_car_seat(const Car *car);
 
-void set_car_lighting(Car *car);
+void render_back_seat(const Car *car);
+
+void render_steering_wheel(const Car *car);
+
+void render_dashboard(const Car *car);
+
+void toggle_headlight_left(const Car *car);
+
+void toggle_headlight_right(const Car *car);
 
 void set_car_material(const Material *material);
+
+void set_car_front_wheel_rotation_z_speed(Car *car, float value);
+
+void set_car_front_wheel_rotation_y_speed(Car *car, float value);
+
+void set_car_back_wheel_rotation_y_speed(Car *car, float value);
+
+void set_car_rotation_speed_z(Car *car, float value);
 
 void set_car_speed_x(Car *car, float value);
 
@@ -121,25 +133,14 @@ void set_car_speed_y(Car *car, float value);
 
 void set_car_speed_z(Car *car, float value);
 
-void set_car_front_wheel_rotation_y_speed(Car *car, float value);
-
-void set_car_front_wheel_rotation_z_speed(Car *car, float value);
-
-void set_car_back_wheel_rotation_z_speed(Car *car, float value);
-
-void set_car_brake_speed(Car *car, float speed);
-
-void set_car_rotation_speed_z(Car *car, float value);
-
-void set_car_wheel_rotation_speed(Car *car, float speed);
-
-void set_car_side_speed(Car *car, float value);
-
 void set_acceleration_speed(Car *car, float speed);
 
 void toggle_headlights(Car *car, bool status);
 
-void set_camera_follow_state(Car *car, bool state);
+void set_car_brake_speed(Car *car, float speed);
 
+void set_car_wheel_rotation_speed(Car *car, float speed);
+
+void set_camera_follow_state(Car *car, bool state);
 
 #endif /* CAR_H */
