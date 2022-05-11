@@ -92,16 +92,65 @@ typedef struct Scene {
  */
 void init_scene(Scene *scene);
 
+/**
+ * Initialize the objects.
+ */
 void init_objects(Scene *scene);
 
+/**
+ * Initialize the textures.
+ */
 void init_textures(Scene *scene);
 
+/**
+ * Initialize the display lists.
+ */
 void init_display_lists(Scene *scene);
 
 /**
  * Set the lighting of the scene.
  */
 void set_lighting(const Scene *scene);
+
+/**
+ * Initialize the bridges.
+ */
+void init_bridges(Scene *scene);
+
+/**
+ * Initialize the obstacles.
+ */
+void init_obstacles(Scene *scene);
+
+/**
+ * Initialize the materials of the scene.
+ */
+void init_material_scene(Scene *scene);
+
+/**
+ * Initialize the materials of the skull.
+ */
+void init_material_skull(Scene *scene);
+
+/**
+ * Initialize the water.
+ */
+void init_water(Scene *scene);
+
+/**
+ * Initialize the light.
+ */
+void init_light(Scene *scene);
+
+/**
+ * Initialize the audio.
+ */
+void init_audio(Scene *scene);
+
+/**
+ * Initialize the fog.
+ */
+void init_fog(Scene *scene);
 
 /**
  * Set the current material.
@@ -113,8 +162,14 @@ void set_material(const Material *material);
  */
 void update_scene(Scene *scene, Camera *camera, Car *car, double time);
 
+/**
+ * Collision detection for the road.
+ */
 void road_collision_detection(Car *car, Camera *camera);
 
+/**
+ * Collision detection for certain obstacles.
+ */
 void obstacle_collision_detection(Scene *scene, Car *car, double time);
 
 void finish_line(Scene *scene, Car *car, Camera *camera);

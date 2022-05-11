@@ -6,26 +6,48 @@
 
 void init_car(Car *car) {
     init_car_objects(car);
+
     init_car_textures(car);
 
     //Camera initialization values
     car->camera_follow = true;
 
-    //Car initialization values
-    car->car_material.ambient.red = 0.6f;
-    car->car_material.ambient.green = 0.6f;
-    car->car_material.ambient.blue = 0.6f;
+    init_material_car(car);
 
-    car->car_material.diffuse.red = 1.0f;
-    car->car_material.diffuse.green = 1.0f;
-    car->car_material.diffuse.blue = 1.0f;
+    init_car_values(car);
 
-    car->car_material.specular.red = 1.0f;
-    car->car_material.specular.green = 1.0f;
-    car->car_material.specular.blue = 1.0f;
+    init_car_audio(car);
 
-    car->car_material.shininess = 300.0f;
+    init_car_display_lists(car);
+}
 
+void init_car_objects(Car *car) {
+    load_model(&(car->model), "assets/models/porsche_nowindows.obj");
+    load_model(&(car->crash_model), "assets/models/porsche_crashed_nowindows.obj");
+    load_model(&(car->front_right_wheel), "assets/models/front_right_wheel.obj");
+    load_model(&(car->front_left_wheel), "assets/models/front_left_wheel.obj");
+    load_model(&(car->back_wheels), "assets/models/back_wheels.obj");
+    load_model(&(car->windows), "assets/models/windows.obj");
+    load_model(&(car->windows_crashed), "assets/models/windows_crashed.obj");
+    load_model(&(car->headlights), "assets/models/headlights.obj");
+    load_model(&(car->car_seat), "assets/models/car_seat.obj");
+    load_model(&(car->back_seat), "assets/models/car_seat_back.obj");
+    load_model(&(car->steering_wheel), "assets/models/steering_wheel.obj");
+    load_model(&(car->dashboard), "assets/models/dashboard.obj");
+}
+
+void init_car_textures(Car *car) {
+    car->wheel_texture = load_texture("assets/textures/tyre.jpg");
+    car->texture = load_texture("assets/textures/car.jpg");
+    car->brake_texture = load_texture("assets/textures/car_brake.jpg");
+    car->reverse_texture = load_texture("assets/textures/car_reverse.jpg");
+    car->seat_texture = load_texture("assets/textures/seat_texture.jpg");
+    car->window_texture = load_texture("assets/textures/windows.jpg");
+    car->steering_wheel_texture = load_texture("assets/textures/seat_texture.jpg");
+    car->dashboard_texture = load_texture("assets/textures/dashboard.jpg");
+}
+
+void init_car_values(Car *car) {
     car->position.x = 0.0;
     car->position.y = 0.0;
     car->position.z = 3.0;
@@ -84,8 +106,25 @@ void init_car(Car *car) {
     car->headlights_on = false;
 
     car->car_started = false;
+}
 
-    //Audio initialization values
+void init_material_car(Car *car) {
+    car->car_material.ambient.red = 0.6f;
+    car->car_material.ambient.green = 0.6f;
+    car->car_material.ambient.blue = 0.6f;
+
+    car->car_material.diffuse.red = 1.0f;
+    car->car_material.diffuse.green = 1.0f;
+    car->car_material.diffuse.blue = 1.0f;
+
+    car->car_material.specular.red = 1.0f;
+    car->car_material.specular.green = 1.0f;
+    car->car_material.specular.blue = 1.0f;
+
+    car->car_material.shininess = 300.0f;
+}
+
+void init_car_audio(Car *car) {
     SDL_LoadWAV("assets/audio/car_start.wav", &car->wav_spec, &car->wav_buffer, &car->wav_length);
     car->car_start = SDL_OpenAudioDevice(NULL, 0, &car->wav_spec, NULL, 0);
     SDL_QueueAudio(car->car_start, car->wav_buffer, car->wav_length);
@@ -93,7 +132,9 @@ void init_car(Car *car) {
     SDL_LoadWAV("assets/audio/car_idling.wav", &car->wav_spec, &car->wav_buffer, &car->wav_length);
     car->idling = SDL_OpenAudioDevice(NULL, 0, &car->wav_spec, NULL, 0);
     SDL_QueueAudio(car->idling, car->wav_buffer, car->wav_length);
+}
 
+void init_car_display_lists(Car *car) {
     car->seatList = glGenLists(1);
     glNewList(car->seatList, GL_COMPILE);
     render_car_seat(car);
@@ -104,32 +145,6 @@ void init_car(Car *car) {
     glNewList(car->dashboardList, GL_COMPILE);
     render_dashboard(car);
     glEndList();
-}
-
-void init_car_objects(Car *car) {
-    load_model(&(car->model), "assets/models/porsche_nowindows.obj");
-    load_model(&(car->crash_model), "assets/models/porsche_crashed_nowindows.obj");
-    load_model(&(car->front_right_wheel), "assets/models/front_right_wheel.obj");
-    load_model(&(car->front_left_wheel), "assets/models/front_left_wheel.obj");
-    load_model(&(car->back_wheels), "assets/models/back_wheels.obj");
-    load_model(&(car->windows), "assets/models/windows.obj");
-    load_model(&(car->windows_crashed), "assets/models/windows_crashed.obj");
-    load_model(&(car->headlights), "assets/models/headlights.obj");
-    load_model(&(car->car_seat), "assets/models/car_seat.obj");
-    load_model(&(car->back_seat), "assets/models/car_seat_back.obj");
-    load_model(&(car->steering_wheel), "assets/models/steering_wheel.obj");
-    load_model(&(car->dashboard), "assets/models/dashboard.obj");
-}
-
-void init_car_textures(Car *car) {
-    car->wheel_texture = load_texture("assets/textures/tyre.jpg");
-    car->texture = load_texture("assets/textures/car.jpg");
-    car->brake_texture = load_texture("assets/textures/car_brake.jpg");
-    car->reverse_texture = load_texture("assets/textures/car_reverse.jpg");
-    car->seat_texture = load_texture("assets/textures/seat_texture.jpg");
-    car->window_texture = load_texture("assets/textures/windows.jpg");
-    car->steering_wheel_texture = load_texture("assets/textures/seat_texture.jpg");
-    car->dashboard_texture = load_texture("assets/textures/dashboard.jpg");
 }
 
 void update_car(Car *car, Camera *camera, double time) {

@@ -83,6 +83,14 @@ void init_car_objects(Car *car);
 
 void init_car_textures(Car *car);
 
+void init_car_values(Car *car);
+
+void init_material_car(Car *car);
+
+void init_car_audio(Car *car);
+
+void init_car_display_lists(Car *car);
+
 void update_car(Car *car, Camera *camera, double time);
 
 void acceleration_forward(Car *car, Camera *camera, double time);

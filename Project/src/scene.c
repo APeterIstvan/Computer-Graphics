@@ -6,88 +6,27 @@
 #include <math.h>
 
 void init_scene(Scene *scene) {
-    //Initialization of objects and textures
     init_objects(scene);
+
     init_textures(scene);
 
-    //BRIDGE GENERATION
-    float curr_pos_minus = -2499;
-    for (int i = 0; i < ROAD_NUMBERS; i++) {
-        scene->bridge[i].texture = load_texture("assets/textures/tower_bridge.jpg");
-        scene->bridge[i].position.x = curr_pos_minus;
-        curr_pos_minus = scene->bridge[i].position.x - 2499;
-    }
+    init_bridges(scene);
 
-    //BARRIER GENERATION
-    float curr_pos = -50;
-    for (int i = 0; i < BARRIER_NUMBERS; i++) {
-        scene->barrier[i].texture = load_texture("assets/textures/barrier.jpg");
-        scene->barrier[i].position.x = curr_pos;
-        scene->barrier[i].minus_size = 30;
-        scene->barrier[i].plus_size = -10;
-        curr_pos = scene->barrier[i].position.x - rand() % 100 - 70;
-        if (i % 2) {
-            scene->barrier[i].position.y = 10 - rand() % 3 - 1;
-        } else {
-            scene->barrier[i].position.y = -10 + rand() % 3 - 1;
-        }
-    }
+    init_obstacles(scene);
 
-    //Scene material initialization values
-    scene->material.ambient.red = 2.0;
-    scene->material.ambient.green = 2.0;
-    scene->material.ambient.blue = 2.0;
+    init_material_scene(scene);
 
-    scene->material.diffuse.red = 1.0;
-    scene->material.diffuse.green = 1.0;
-    scene->material.diffuse.blue = 1.0;
+    init_material_skull(scene);
 
-    scene->material.specular.red = 0.0;
-    scene->material.specular.green = 0.0;
-    scene->material.specular.blue = 0.0;
+    init_water(scene);
 
-    scene->material.shininess = 3.0;
+    init_light(scene);
 
-    //Skull initialization values
-    scene->skull_material.ambient.red = 0.25f;
-    scene->skull_material.ambient.green = 0.20725f;
-    scene->skull_material.ambient.blue = 0.20725f;
+    init_fog(scene);
 
-    scene->skull_material.diffuse.red = 1.0;
-    scene->skull_material.diffuse.green = 0.829f;
-    scene->skull_material.diffuse.blue = 0.829f;
-
-    scene->skull_material.specular.red = 0.296648f;
-    scene->skull_material.specular.green = 0.296648f;
-    scene->skull_material.specular.blue = 0.296648f;
-
-    scene->skull_material.shininess = 11.264f;
-
-    //Water initialization values
-    scene->water.position.x = -1500;
-    scene->water.position.y = 0.0;
-    scene->water.position.z = -65;
-
-    scene->water.motion_up = true;
-
-    //Light initialization values
-    scene->light.ambient[0] = 0.15f;
-    scene->light.ambient[1] = 0.15f;
-    scene->light.ambient[2] = 0.15f;
-    scene->light.ambient[3] = 1.0f;
-
-    scene->light.speed = 0.0;
-
-    //Fog initialization values
-    scene->fog_speed = 0.8;
-    scene->fog_state = true;
-
-    //Help panel initialization values
     scene->help_panel_state = false;
 
-    SDL_LoadWAV("assets/audio/crash.wav", &scene->wav_spec, &scene->wav_buffer, &scene->wav_length);
-    scene->crash_sound = SDL_OpenAudioDevice(NULL, 0, &scene->wav_spec, NULL, 0);
-    //SDL_QueueAudio(scene->crash_sound, scene->wav_buffer, scene->wav_length);
+    init_audio(scene);
 
     init_display_lists(scene);
 }
@@ -110,7 +49,7 @@ void init_textures(Scene *scene) {
     scene->mountain_texture = load_texture("assets/textures/mountain2.jpg");
 }
 
-void init_display_lists(Scene *scene){
+void init_display_lists(Scene *scene) {
     scene->skullList = glGenLists(1);
     glNewList(scene->skullList, GL_COMPILE);
     render_skull(scene);
@@ -163,6 +102,91 @@ void set_lighting(const Scene *scene) {
     glLightfv(GL_LIGHT0, GL_POSITION, position);
 }
 
+void init_bridges(Scene *scene) {
+    float curr_pos_minus = -2499;
+    for (int i = 0; i < ROAD_NUMBERS; i++) {
+        scene->bridge[i].texture = load_texture("assets/textures/tower_bridge.jpg");
+        scene->bridge[i].position.x = curr_pos_minus;
+        curr_pos_minus = scene->bridge[i].position.x - 2499;
+    }
+}
+
+void init_obstacles(Scene *scene) {
+    float curr_pos = -50;
+    for (int i = 0; i < BARRIER_NUMBERS; i++) {
+        scene->barrier[i].texture = load_texture("assets/textures/barrier.jpg");
+        scene->barrier[i].position.x = curr_pos;
+        scene->barrier[i].minus_size = 30;
+        scene->barrier[i].plus_size = -10;
+        curr_pos = scene->barrier[i].position.x - rand() % 100 - 70;
+        if (i % 2) {
+            scene->barrier[i].position.y = 10 - rand() % 3 - 1;
+        } else {
+            scene->barrier[i].position.y = -10 + rand() % 3 - 1;
+        }
+    }
+}
+
+void init_material_scene(Scene *scene) {
+    scene->material.ambient.red = 2.0;
+    scene->material.ambient.green = 2.0;
+    scene->material.ambient.blue = 2.0;
+
+    scene->material.diffuse.red = 1.0;
+    scene->material.diffuse.green = 1.0;
+    scene->material.diffuse.blue = 1.0;
+
+    scene->material.specular.red = 0.0;
+    scene->material.specular.green = 0.0;
+    scene->material.specular.blue = 0.0;
+
+    scene->material.shininess = 3.0;
+}
+
+void init_material_skull(Scene *scene) {
+    scene->skull_material.ambient.red = 0.25f;
+    scene->skull_material.ambient.green = 0.20725f;
+    scene->skull_material.ambient.blue = 0.20725f;
+
+    scene->skull_material.diffuse.red = 1.0;
+    scene->skull_material.diffuse.green = 0.829f;
+    scene->skull_material.diffuse.blue = 0.829f;
+
+    scene->skull_material.specular.red = 0.296648f;
+    scene->skull_material.specular.green = 0.296648f;
+    scene->skull_material.specular.blue = 0.296648f;
+
+    scene->skull_material.shininess = 11.264f;
+}
+
+void init_water(Scene *scene) {
+    scene->water.position.x = -1500;
+    scene->water.position.y = 0.0;
+    scene->water.position.z = -65;
+
+    scene->water.motion_up = true;
+}
+
+void init_light(Scene *scene) {
+    scene->light.ambient[0] = 0.15f;
+    scene->light.ambient[1] = 0.15f;
+    scene->light.ambient[2] = 0.15f;
+    scene->light.ambient[3] = 1.0f;
+
+    scene->light.speed = 0.0;
+}
+
+void init_audio(Scene *scene) {
+    SDL_LoadWAV("assets/audio/crash.wav", &scene->wav_spec, &scene->wav_buffer, &scene->wav_length);
+    scene->crash_sound = SDL_OpenAudioDevice(NULL, 0, &scene->wav_spec, NULL, 0);
+    //SDL_QueueAudio(scene->crash_sound, scene->wav_buffer, scene->wav_length);
+}
+
+void init_fog(Scene *scene) {
+    scene->fog_speed = 0.8;
+    scene->fog_state = true;
+}
+
 void set_material(const Material *material) {
     float ambient_material_color[] = {
             material->ambient.red,
@@ -196,20 +220,16 @@ void update_scene(Scene *scene, Camera *camera, Car *car, double time) {
         scene->light.ambient[i] += scene->light.speed * time;
     }
 
-    //Collision detection - road
     road_collision_detection(car, camera);
 
-    //Collision detection - barriers
     obstacle_collision_detection(scene, car, time);
 
     /*if(car->acceleration != 0 || car->speed.x != 0){
         SDL_ClearQueuedAudio(scene->crash_sound);
     }*/
 
-    //Finish line - Skull
     finish_line(scene, car, camera);
 
-    //Water motion
     water_motion(scene, time);
 }
 
@@ -367,29 +387,25 @@ void render_scene(const Scene *scene) {
     set_material(&(scene->material));
 
     glPushMatrix();
-    //glScalef(10.0f, 10.0f, 30.0f);
-    glTranslatef(-20000, -15000, 1000);
+    glTranslatef(-20000.0f, -15000.0f, 1000.0f);
     glCallList(scene->mountainList);
     glPopMatrix();
 
     glPushMatrix();
-    //glScalef(1.0f, 1.0f, 1.0f);
-    glTranslatef(-20000, 15000, 800);
-    glRotatef(180, 0, 0, 1);
+    glTranslatef(-20000.0f, 15000.0f, 800.0f);
+    glRotatef(180, 0.0f, 0.0f, 1.0f);
     glCallList(scene->mountainList);
     glPopMatrix();
 
     glPushMatrix();
-    //glScalef(1.0f, 1.0f, 1.0f);
-    glTranslatef(0, -25000, 800);
-    glRotatef(90, 0, 0, 1);
+    glTranslatef(0.0f, -25000.0f, 800.0f);
+    glRotatef(90, 0.0f, 0.0f, 1.0f);
     glCallList(scene->mountainList);
     glPopMatrix();
 
     glPushMatrix();
-    //glScalef(1.0f, 1.0f, 1.0f);
-    glTranslatef(15000, 25000, 400);
-    glRotatef(225, 0, 0, 1);
+    glTranslatef(15000.0f, 25000.0f, 200.0f);
+    glRotatef(225, 0.0f, 0.0f, 1.0f);
     glCallList(scene->mountainList);
     glPopMatrix();
 
@@ -404,7 +420,7 @@ void render_barrier(const Scene *scene) {
     for (int i = 0; i < BARRIER_NUMBERS; i++) {
         glPushMatrix();
         glTranslatef(scene->barrier[i].position.x, scene->barrier[i].position.y, 1.70);
-        glRotatef(180, 0, 0, 1);
+        glRotatef(180, 0.0f, 0.0f, 1.0f);
         glBindTexture(GL_TEXTURE_2D, scene->barrier[i].texture);
         draw_model(&(scene->barrier_model));
         glPopMatrix();
