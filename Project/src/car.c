@@ -324,19 +324,19 @@ void render_car(const Car *car) {
     render_wheels(car);
 
     glPushMatrix();
-    glTranslatef(car->position.x - 3, car->position.y + 0.2, 2.8);
+    glTranslatef(car->position.x - 3.0f, car->position.y + 0.2f, 2.8f);
     glCallList(car->dashboardList);
     glPopMatrix();
 
     render_steering_wheel(car);
 
     glPushMatrix();
-    glTranslatef(car->position.x - 0.5, car->position.y - 1.3, 1);
+    glTranslatef(car->position.x - 0.5f, car->position.y - 1.3f, 1.0f);
     glCallList(car->seatList);
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(car->position.x - 0.5, car->position.y + 1.3, 1);
+    glTranslatef(car->position.x - 0.5f, car->position.y + 1.3f, 1.0f);
     glCallList(car->seatList);
     glPopMatrix();
 
@@ -351,7 +351,7 @@ void render_car(const Car *car) {
 void render_body(const Car *car) {
     glPushMatrix();
     if (car->crash_state == false) {
-        glTranslatef(car->position.x - 0.2, car->position.y, car->position.z - 0.5);
+        glTranslatef(car->position.x - 0.2f, car->position.y, car->position.z - 0.5f);
         glRotatef(car->body_rotation.x, 1, 0, 0);
         glRotatef(car->body_rotation.y, 0, 1, 0);
         glRotatef(car->body_rotation.z, 0, 0, 1);
@@ -365,7 +365,7 @@ void render_body(const Car *car) {
         }
         draw_model(&(car->model));
     } else {
-        glTranslatef(car->position.x - 0.2, car->position.y, car->position.z - 2.45);
+        glTranslatef(car->position.x - 0.2f, car->position.y, car->position.z - 2.45f);
         glRotatef(car->body_rotation.x, 1, 0, 0);
         glRotatef(car->body_rotation.y, 0, 1, 0);
         glRotatef(car->body_rotation.z, 0, 0, 1);
@@ -386,7 +386,7 @@ void render_body(const Car *car) {
 void render_wheels(const Car *car) {
     //Right front wheel
     glPushMatrix();
-    glTranslatef(car->position.x - 5.5, car->position.y + 3.5, car->position.z - 1.5);
+    glTranslatef(car->position.x - 5.5f, car->position.y + 3.5f, car->position.z - 1.5f);
     glRotatef(car->front_wheel_rotation.z, 0, 0, 1);
     glRotatef(car->front_wheel_rotation.y, 0, 1, 0);
     glBindTexture(GL_TEXTURE_2D, car->wheel_texture);
@@ -395,7 +395,7 @@ void render_wheels(const Car *car) {
 
     //Left front wheel
     glPushMatrix();
-    glTranslatef(car->position.x - 5.5, car->position.y - 3.5, car->position.z - 1.5);
+    glTranslatef(car->position.x - 5.5f, car->position.y - 3.5f, car->position.z - 1.5f);
     glRotatef(car->front_wheel_rotation.z, 0, 0, 1);
     glRotatef(car->front_wheel_rotation.y, 0, 1, 0);
     glBindTexture(GL_TEXTURE_2D, car->wheel_texture);
@@ -404,7 +404,7 @@ void render_wheels(const Car *car) {
 
     //Back wheels
     glPushMatrix();
-    glTranslatef(car->position.x + 4.5, car->position.y, car->position.z - 1.5);
+    glTranslatef(car->position.x + 4.5f, car->position.y, car->position.z - 1.5f);
     glRotatef(car->back_wheel_rotation.x, 1, 0, 0);
     glRotatef(car->back_wheel_rotation.y, 0, 1, 0);
     glRotatef(car->back_wheel_rotation.z, 0, 0, 1);
@@ -419,9 +419,9 @@ void render_windows(const Car *car) {
     glDepthMask(GL_FALSE);
     glBlendFunc(GL_SRC_ALPHA + 1, GL_ONE_MINUS_SRC_ALPHA);
     if (!car->crash_state) {
-        glTranslatef(car->position.x - 0.2, car->position.y, car->position.z - 0.5);
+        glTranslatef(car->position.x - 0.2f, car->position.y, car->position.z - 0.5f);
     } else {
-        glTranslatef(car->position.x - 0.41, car->position.y - 0.01, car->position.z - 0.6);
+        glTranslatef(car->position.x - 0.41f, car->position.y - 0.01f, car->position.z - 0.6f);
     }
     glRotatef(car->body_rotation.x, 1, 0, 0);
     glRotatef(car->body_rotation.y, 0, 1, 0);
@@ -441,7 +441,7 @@ void render_headlights(const Car *car) {
     glEnable(GL_BLEND);
     glDepthMask(GL_FALSE);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glTranslatef(car->position.x - 0.2, car->position.y, car->position.z - 0.5);
+    glTranslatef(car->position.x - 0.2f, car->position.y, car->position.z - 0.5f);
     glRotatef(car->body_rotation.x, 1, 0, 0);
     glRotatef(car->body_rotation.y, 0, 1, 0);
     glRotatef(car->body_rotation.z, 0, 0, 1);
@@ -454,14 +454,14 @@ void render_headlights(const Car *car) {
 void render_lights(const Car *car) {
     //Left headlight of the car
     glPushMatrix();
-    glTranslatef(car->position.x - 5.4, car->position.y + 4.0, car->position.z - 2.5);
+    glTranslatef(car->position.x - 5.4f, car->position.y + 4.0f, car->position.z - 2.5f);
     glRotatef(car->steering_rotation.z, 0, 0, 1);
     toggle_headlight_left(car);
     glPopMatrix();
 
     //Right headlight of the car
     glPushMatrix();
-    glTranslatef(car->position.x - 5.4, car->position.y - 4.0, car->position.z - 2.5);
+    glTranslatef(car->position.x - 5.4f, car->position.y - 4.0f, car->position.z - 2.5f);
     glRotatef(car->steering_rotation.z, 0, 0, 1);
     toggle_headlight_right(car);
     glPopMatrix();
@@ -476,7 +476,7 @@ void render_car_seat(const Car *car) {
 
 void render_back_seat(const Car *car) {
     glPushMatrix();
-    glTranslatef(3, 0, 0.5);
+    glTranslatef(3.0f, 0.0f, 0.5f);
     glBindTexture(GL_TEXTURE_2D, car->seat_texture);
     draw_model(&(car->back_seat));
     glPopMatrix();
@@ -484,7 +484,7 @@ void render_back_seat(const Car *car) {
 
 void render_steering_wheel(const Car *car) {
     glPushMatrix();
-    glTranslatef(car->position.x - 2, car->position.y - 1.4, 2.75);
+    glTranslatef(car->position.x - 2.0f, car->position.y - 1.4f, 2.75f);
     glRotatef(car->front_wheel_rotation.z * 2, 1, 0, 0);
     //glRotatef(car->body_rotation.y, 0, 1, 0);
     glBindTexture(GL_TEXTURE_2D, car->steering_wheel_texture);

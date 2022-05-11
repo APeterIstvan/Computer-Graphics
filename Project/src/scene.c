@@ -416,10 +416,10 @@ void render_scene(const Scene *scene) {
 }
 
 void render_barrier(const Scene *scene) {
-    glTranslatef(0, 0, 0);
+    glTranslatef(0.0f, 0.0f, 0.0f);
     for (int i = 0; i < BARRIER_NUMBERS; i++) {
         glPushMatrix();
-        glTranslatef(scene->barrier[i].position.x, scene->barrier[i].position.y, 1.70);
+        glTranslatef(scene->barrier[i].position.x, scene->barrier[i].position.y, 1.70f);
         glRotatef(180, 0.0f, 0.0f, 1.0f);
         glBindTexture(GL_TEXTURE_2D, scene->barrier[i].texture);
         draw_model(&(scene->barrier_model));
@@ -429,7 +429,7 @@ void render_barrier(const Scene *scene) {
 
 void render_skull(const Scene *scene) {
     glPushMatrix();
-    glTranslatef(scene->bridge[ROAD_NUMBERS - 1].position.x - 1260, 0, 40);
+    glTranslatef(scene->bridge[ROAD_NUMBERS - 1].position.x - 1260.0f, 0.0f, 40.0f);
     glBindTexture(GL_TEXTURE_2D, scene->skull.texture);
     //glBegin(GL_TRIANGLES);
     draw_model(&(scene->skull.model));
@@ -447,10 +447,10 @@ void render_water(const Scene *scene) {
 }
 
 void render_road(const Scene *scene) {
-    glTranslatef(0, 0, 0);
+    glTranslatef(0.0f, 0.0f, 0.0f);
     for (int i = 0; i < ROAD_NUMBERS; i++) {
         glPushMatrix();
-        glTranslatef(scene->bridge[i].position.x, 0, 95);
+        glTranslatef(scene->bridge[i].position.x, 0.0f, 95.0f);
         glBegin(GL_TRIANGLES);
         draw_model(&(scene->bridge_model));
         glPopMatrix();
@@ -460,7 +460,7 @@ void render_road(const Scene *scene) {
 void render_init_bridge(const Scene *scene) {
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, scene->bridge_texture);
-    glTranslatef(0, 0, 95);
+    glTranslatef(0.0f, 0.0f, 95.0f);
     draw_model(&(scene->road));
     glPopMatrix();
 }
